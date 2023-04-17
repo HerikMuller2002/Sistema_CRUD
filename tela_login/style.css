@@ -1,21 +1,3 @@
-/* body {
-    background-color: #141C2B;
-    width: 100%;
-}
-
-.img__logo {
-    display: flex;
-    justify-content: center;
-    padding: 1rem;
-    object-fit: cover;
-}
-
-.img__logo > img {
-    width: 10rem
-} */
-
-
-
 /* configurações gerais */
 :root {
     --body-color-dark: #141C2B;
@@ -26,7 +8,7 @@
 
 *{
     margin: 0;
-    padding: 5px;
+    padding: 0;
     box-sizing: border-box;
     font-family: 'IBM Plex Sans', sans-serif;
 }
@@ -59,6 +41,7 @@ input[type=number] {
 
 body {
     background: linear-gradient(320deg, #141c2b, #16324e);
+    color: #d1d1d1;
 }
 
 body, html, #react-entry-point, #main-div, .container-fluid {
@@ -136,28 +119,14 @@ textarea {
     }
 }
 
-/* #login-box {
-    background-color: #34476670;
+#login-box {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     row-gap: 2rem;
-    width: 40%;
-    height: 60%;
-} */
-
-#login-box {
-    background-color: #34476670;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    row-gap: 0rem;
     width: 100%;
     height: 100%;
-    max-width: 600px;
-    flex-shrink: 1;
 }
 
 #login-logo {
@@ -169,7 +138,7 @@ textarea {
 }
 
 #login-logo-img {
-    width: 23rem;
+    width: 20rem;
     height: auto;
 }
 
@@ -189,8 +158,8 @@ textarea {
     padding: .8rem;
     font-size: 1.3rem;
     font-weight: 500;
-    color: #000000;
-    background-color: #ffffff;
+    color: #d1d1d1;
+    background-color: var(--input-bg-color-dark);
     transition: all .2s ease-in-out;
     pointer-events: all;
 }
@@ -218,9 +187,4 @@ textarea {
 
 .hidden {
     display: none;
-}
-
-#login-title {
-    color: #ffffff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

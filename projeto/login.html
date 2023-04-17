@@ -20,39 +20,28 @@
     <script type="text/javascript" src="bootstrap_js/bootstrap.js"></script>
     <script type="text/javascript" src="js/Login.js"></script>
     
-    <div id="page-content" style="height: 100%;">
-        <div id="login">
-            <div id="login-form">
-                <div id="login-logo">
-                    <img id="login-logo-img" src="assets/logo-semeq-branco.png">
-                </div>
-                <div id="login-box">
-                    <div id="login-title">
-                        <h1 id="login-title-text">Sistema de Gerenciamento</h1>
-                        <div class="card-body">
-                            <form>
-                                <div class="form-floating mb-3">
-                                    <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
-                                    <label for="inputEmail">Email address</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input class="form-control" id="inputPassword" type="password" placeholder="Password" />
-                                    <label for="inputPassword">Password</label>
-                                </div>
-                                <div class="form-check mb-3">
-                                    <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
-                                    <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                    <a class="small" href="password.html">Forgot Password?</a>
-                                    <a class="btn btn-primary" href="index.html">Login</a>
-                                </div>
-                            </form>
-                        </div>
-                </div>
-            </div>
+    <div id="login-box" class="container">
+        <div id="login-logo">
+            <img id="login-logo-img" src="assets/logo-semeq-branco.png">
         </div>
+        <form class="container" id="form-box">
+            <div id="login-title" class="container">
+                <h1 id="login-title-text">Sistema de Gerenciamento do Chatbot</h1>
+            </div>
+            <div id="login-inputs" class="login-inputs">
+                <div class="form-floating mb-3" class="container">
+                  <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
+                  <label for="inputEmail">Email address</label>
+                </div>
+                <div class="form-floating mb-3" class="container">
+                  <input class="form-control" id="inputPassword" type="password" placeholder="Password" />
+                  <label for="inputPassword">Password</label>
+                </div>
+                <a type="submmit" class="btn btn-primary" id="btn-login" onclick="login();return false">Login</a>
+                <a class="small" id="forgot-pass" href="password.html">Forgot Password?</a>
+            </div>              
+        </form>
     </div>
-
+            
 </body>
 </html>
