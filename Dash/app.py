@@ -1,49 +1,11 @@
 import dash
 from dash import html, dcc
 from dash.dependencies import Input, Output, State
+from pages import login, home, signUp
+from database.account import *
 
-import home
-import signUp
-
-app = dash.Dash(__name__)
-
-login = html.Div([
-    html.H1('Página de Login'),
-    dcc.Input(
-        id='username-input',
-        type='text',
-        placeholder='Insira seu nome de usuário',
-    ),
-    dcc.Input(
-        id='password-input',
-        type='password',
-        placeholder='Insira sua senha'
-    ),
-    html.Button('Login', id='login-button', n_clicks=0),
-    html.Button('Sign up', id='signup-button', n_clicks=0),
-    html.Br(),
-    html.Div(id='login-output')
-])
-
-@app.callback(
-    Output('url', 'href'),
-    Input('login-button', 'n_clicks'),
-    Input('signup-button', 'n_clicks'),
-    State('username-input', 'value'),
-    State('password-input', 'value')
-)
-def update_url(login_clicks, signup_clicks, username, password):
-    ctx = dash.callback_context
-    button_id = ctx.triggered[0]['prop_id']
-    print(button_id)
-
-
-
-
-
-login_layout = login
-home_layout = home.home_layout()
-signup_layout = signUp.signUp_layout()
+app = dash.Dash(__name__, suppress_callback_exceptions=True)
+server = app.server
 
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
@@ -51,16 +13,84 @@ app.layout = html.Div([
 ])
 
 @app.callback(Output('page-content', 'children'),
-              [Input('url', 'pathname')])
+                [Input('url', 'pathname')],
+                prevent_initial_call=True,
+                allow_duplicate=True)
+
 def display_page(pathname):
     if pathname == '/':
-        return login_layout
+        return login.login_layout()
+    elif pathname == '/login':
+        return login.login_layout()
     elif pathname == '/home':
-        return home_layout
+        return home.home_layout()
     elif pathname == '/signUp':
-        return signup_layout
+        return signUp.signUp_layout()
     else:
         return '404 Página não encontrada'
+
+
+
+#########################################
+login_layout = login.login_layout()
+
+@app.callback(Output('url', 'pathname'),
+                Input('login-button', 'n_clicks'),
+                Input('signup-button', 'n_clicks'),
+                State('username-input', 'value'),
+                State('password-input', 'value'),
+                prevent_initial_call=True,
+                allow_duplicate=True)
+def update_url(login_clicks, signup_clicks, username, password):
+    ctx = dash.callback_context
+    button_id = ctx.triggered[0]['prop_id'].split('.')[0] if ctx.triggered else None
+    if login_clicks == 0 and signup_clicks == 0:
+        button_id = None
+    if button_id == "login-button":
+        verify = verify_acces(username, password)
+        if not verify:
+            return '/'
+        else:
+            return '/home'
+    elif button_id == "signup-button":
+        return '/signUp'
+    else:
+        return '/'
+
+@app.callback(Output('password-input', 'value'),
+              Output('username-input', 'value'),
+              Input('login-button', 'n_clicks'))
+def clear_password_field(n_clicks):
+    return '',''
+
+
+#########################################
+signUp_layout = signUp.signUp_layout()
+
+@app.callback(
+    Output('signup-output', 'children'), 
+    Input('signup_submmit', 'n_clicks'),
+    State('username-submmit', 'value'),
+    State('password-submmit', 'value'),
+    State('confirm-password', 'value'),
+    prevent_initial_call=True,
+    allow_duplicate=True
+)
+def register(signup_clicks, username, password, confirm_password):
+    ctx = dash.callback_context
+    button_id = ctx.triggered[0]['prop_id'].split('.')[0] if ctx.triggered else None
+    if signup_clicks == 0:
+        button_id = None
+    if button_id == 'signup_submmit':
+        if len(password) == 0 or password == None and confirm_password == None or len(password) == 0 and len(confirm_password) == 0:
+            return 'Cadastre uma senha'
+        elif len(password) < 8 or len(confirm_password) < 8:
+            return 'A senha deve ter no mínimo 8 caracteres'
+        elif password != confirm_password:
+            return 'As senhas não coincidem. Tente novamente.'
+        else:
+            create_acces(username, password)
+            return 'Cadastro realizado com sucesso! Faça login para acessar a página inicial.'
 
 if __name__ == '__main__':
     app.run_server(debug=True)
