@@ -13,33 +13,16 @@ df = importar_tabela('Dash\\database\\banco.db', 'problemas')
 
 def home_layout():
     table = dash_table.DataTable(
-        df.to_dict('records'), [{"name": i, "id": i} for i in df.columns]
-        )
+        data=df.to_dict('records'),
+        columns=[{"name": i, "id": i} for i in df.columns],
+        style_table={'height': '500px','width': '70%', 'overflowY': 'auto', 'overflowX': 'auto'},
+        style_cell={'minWidth': '0px', 'maxWidth': '780px', 'minHeight': '0px', 'maxHeight': '180px', 'whiteSpace': 'normal', 'text-allingn': 'left'},
+        style_header={'backgroundColor': 'rgb(230, 230, 230)', 'fontWeight': 'bold'}
+    )
 
-    navbar = dbc.NavbarSimple(
-        children=[
-            dbc.NavItem(dbc.NavLink("Home", href='/home')),
-            dbc.DropdownMenu(
-                children=[
-                    dbc.DropdownMenuItem("More pages", header=True),
-                    dbc.DropdownMenuItem("Login", href='/'),
-                    dbc.DropdownMenuItem("Sign up", href="/signUp"),
-                ],
-                nav=True,
-                in_navbar=True,
-                label="More",
-            ),
-        ],
-        brand="NavbarSimple",
-        brand_href="#",
-        color="primary",
-        dark=True,
-        )
-
-    # Definindo o layout da página Home
     home = html.Div([
-        navbar,
-        html.H1('Página Home'),
-        table
+        html.Div([
+        html.Nav
+        ])
     ])
     return home

@@ -17,9 +17,18 @@ def login_layout():
         ),
         html.Button('Login', id='login-button', n_clicks=0),
         html.Button('Sign up', id='signup-button', n_clicks=0),
+        html.Button('modal', id='modal-button', n_clicks=0),
         html.Br(),
         html.Div(id='login-output'),
-        html.Div(id='denied')
+        html.Div(id='denied'),
+        html.Div(
+            id='papagaio',
+            className='pirata',
+            children=[
+                
+            ]
+        ),
+
     ])
 
     return login

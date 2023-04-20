@@ -4,9 +4,14 @@ from dash import html, dcc
 from dash.dependencies import Input, Output, State
 from pages import login, home, signUp
 from database.account import *
+from dash.exceptions import PreventUpdate
 
-app = dash.Dash(__name__, suppress_callback_exceptions=True, external_stylesheets=['\\Dash\\bootstrap.min.css'])
+app = dash.Dash(__name__, suppress_callback_exceptions=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
+
+modal_layout = html.Div([
+    html.H1('Olá')
+])
 
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
@@ -63,6 +68,16 @@ def update_url(login_clicks, signup_clicks, username, password):
               Input('login-button', 'n_clicks'))
 def clear_password_field(n_clicks):
     return '',''
+
+@app.callback(
+    Output('papagaio','children'),
+    Input('modal-button','n_clicks'),
+    prevent_initial_call=True
+)
+def modal(click):
+    if click is None:
+        raise PreventUpdate
+    return modal_layout
 
 
 #########################################
