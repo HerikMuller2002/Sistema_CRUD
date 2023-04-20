@@ -1,6 +1,6 @@
 import sqlite3
-# import sys
-# import os
+import pandas as pd
+import os
 
 # # Obtém o diretório pai do diretório atual
 # diretorio_pai = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -31,3 +31,20 @@ def verify_acces(email, senha):
     conn.close()
     # Retorna o resultado da consulta
     return resultado
+
+def add(df):
+    # Conectar-se ao banco de dados SQLite
+    conn = sqlite3.connect('Dash\\database\\banco.db')
+
+    # Adicionar o DataFrame à tabela do SQLite
+    df.to_sql('problemas', conn, if_exists='replace', index=False)
+
+    # Fechar a conexão com o banco de dados
+    conn.close()
+
+def importar_tabela(nome_banco, nome_tabela):
+    conn = sqlite3.connect(nome_banco)
+    query = f"SELECT * FROM {nome_tabela}"
+    df = pd.read_sql_query(query, conn)
+    conn.close()
+    return df

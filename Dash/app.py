@@ -1,10 +1,11 @@
 import dash
+import dash_bootstrap_components as dbc
 from dash import html, dcc
 from dash.dependencies import Input, Output, State
 from pages import login, home, signUp
 from database.account import *
 
-app = dash.Dash(__name__, suppress_callback_exceptions=True)
+app = dash.Dash(__name__, suppress_callback_exceptions=True, external_stylesheets=['\\Dash\\bootstrap.min.css'])
 server = app.server
 
 app.layout = html.Div([
@@ -93,4 +94,4 @@ def register(signup_clicks, username, password, confirm_password):
             return 'Cadastro realizado com sucesso! Faça login para acessar a página inicial.'
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=True,port=5000)
