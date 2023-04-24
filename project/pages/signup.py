@@ -28,7 +28,8 @@ def signup_layout():
                                 dcc.Input(type='password', id='confirm-password-input', placeholder='Confirm password')
                             ]),
                             html.Div(id='buttons', className='form-group', children=[
-                                    dbc.Button("Register", outline=True, color="primary", className="me-1"),
+                                    dbc.Button("Register", outline=True, color="primary", className="me-1", id='signup-button'),
+                                    html.A('Return to login', href='/login', id='register')
                             ])
                         ])
                     ])

@@ -25,7 +25,7 @@ app.layout = html.Div(className='main', children=[
                         ]),
                         html.Div(id='buttons', className='form-group', children=[
                                 dbc.Button("Login", outline=True, color="primary", className="me-1"),
-                                html.A('Register here', href='#', id='register')
+                                html.A('Register here', href='/login', id='register')
                         ])
                     ])
                 ])

@@ -1,14 +1,14 @@
 @media screen and (max-width: 1920px) {
     .main {
         background-color: white;
-        height: 100vh;
+        height: 90vh;
         margin: 0px;
     }
     
     .container {
         padding-top: 10px;
         background-color: #16324e;
-        height: 70vh;
+        height: 60vh;
     }
     
     #logo img{
@@ -18,27 +18,27 @@
         height: 18vh;
     }
     
-    #signup-form {
+    #login-form {
         display: flex;
         justify-content: center;
     }
     
-    #form-signup {
+    #form-login {
         width: 80%;
     }
     
-    #form-signup label{
+    #form-login label{
         color: white;
     }
     
-    #signup-form h2 {
+    #login-form h2 {
         margin-top: 25px;
         margin-bottom: 0px;
         text-align: center;
         color: white;
     }
     
-    #username-input, #password-input, #confirm-password-input {
+    #username-input, #password-input {
         display: flex;
         text-align: center;
         width: 100%;
@@ -54,7 +54,8 @@
     
     #buttons {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
+        align-items: center;
         margin-top: 10px;
     }
     
@@ -66,14 +67,14 @@
 @media screen and (min-width: 1920px) {
     .main {
         background-color: white;
-        height: 100vh;
+        height: 90vh;
         margin: 0px;
     }
     
     .container {
         padding-top: 30px;
         background-color: #16324e;
-        height: 70vh;
+        height: 60vh;
     }
     
     #logo img{
@@ -83,20 +84,20 @@
         height: 18vh;
     }
     
-    #signup-form {
+    #login-form {
         display: flex;
         justify-content: center;
     }
     
-    #form-signup {
+    #form-login {
         width: 80%;
     }
     
-    #form-signup label{
+    #form-login label{
         color: white;
     }
     
-    #signup-form h2 {
+    #login-form h2 {
         margin-top: 25px;
         margin-bottom: 0px;
         text-align: center;
@@ -104,7 +105,7 @@
         font-size: 40px;
     }
     
-    #username-input, #password-input, #confirm-password-input {
+    #username-input, #password-input {
         display: flex;
         text-align: center;
         width: 100%;

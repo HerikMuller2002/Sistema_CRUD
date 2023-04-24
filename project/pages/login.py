@@ -1,5 +1,7 @@
+import dash
 from dash import html, dcc
 import dash_bootstrap_components as dbc
+from dash.dependencies import Input, Output, State
 
 def login_style():
     style = '/assets/css/login.css'
@@ -7,7 +9,7 @@ def login_style():
 
 def login_layout():
     layout = html.Div(className='main', children=[
-        dbc.Row(style={'height': '20vh', 'margin': '0px'}),
+        dbc.Row(style={'height': '15vh', 'margin': '0px'}),
         dbc.Row([
             dbc.Col(html.Div()),
             dbc.Col(
@@ -25,8 +27,8 @@ def login_layout():
                                 dcc.Input(type='password', id='password-input', placeholder='Password')
                             ]),
                             html.Div(id='buttons', className='form-group', children=[
-                                    dbc.Button("Login", outline=True, color="primary", className="me-1"),
-                                    html.A('Register here', href='#', id='register')
+                                    dbc.Button("Login", outline=True, color="primary", className="me-1", id='login-button'),
+                                    html.A('Register here', href='/register', id='signup-button')
                             ])
                         ])
                     ])
@@ -34,7 +36,7 @@ def login_layout():
             ),
             dbc.Col(html.Div())
         ]),
-        dbc.Row(style={'height': '20vh', 'margin': '0px'})
+        dbc.Row(style={'height': '15vh', 'margin': '0px'})
     ])
 
     return layout
