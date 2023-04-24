@@ -30,8 +30,6 @@ def verify_acces(email, senha):
     # Fecha a conexão com o banco de dados
     conn.close()
     # Retorna o resultado da consulta
-    if resultado:
-        resultado = True
     return resultado
 
 def add(df):

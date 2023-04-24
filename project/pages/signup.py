@@ -1,5 +1,8 @@
+import dash
 from dash import html, dcc
 import dash_bootstrap_components as dbc
+from dash.dependencies import Input, Output, State
+from database.account import *
 
 def signup_style():
     style = '/assets/css/signup.css'
@@ -28,9 +31,10 @@ def signup_layout():
                                 dcc.Input(type='password', id='confirm-password-input', placeholder='Confirm password')
                             ]),
                             html.Div(id='buttons', className='form-group', children=[
-                                    dbc.Button("Register", outline=True, color="primary", className="me-1", id='signup-button'),
-                                    html.A('Return to login', href='/login', id='register')
-                            ])
+                                    dbc.Button("Register", outline=True, color="primary", className="me-1", id='signup-submit'),
+                                    html.A('Return to login', href='/login', id='login')
+                            ]),
+                            html.Div(id='signup-output'), # Novo elemento Div
                         ])
                     ])
                 ])
@@ -41,3 +45,28 @@ def signup_layout():
     ])
 
     return layout
+
+def callbacks(app):
+    @app.callback(
+        Output('signup-output', 'children',allow_duplicate=True), 
+        Input('signup-submit', 'n_clicks'),
+        State('username-input', 'value'),
+        State('password-input', 'value'),
+        State('confirm-password-input', 'value'),
+        prevent_initial_call=True
+    )
+    def register(signup_clicks, username, password, confirm_password):
+        ctx = dash.callback_context
+        button_id = ctx.triggered[0]['prop_id'].split('.')[0] if ctx.triggered else None
+        if signup_clicks == 0:
+            button_id = None
+        if button_id == 'signup-submit':
+            if len(password) == 0 or password == None and confirm_password == None or len(password) == 0 and len(confirm_password) == 0:
+                return 'Cadastre uma senha'
+            elif len(password) < 8 or len(confirm_password) < 8:
+                return 'A senha deve ter no mínimo 8 caracteres'
+            elif password != confirm_password:
+                return 'As senhas não coincidem. Tente novamente.'
+            else:
+                create_acces(username, password)
+                return 'Cadastro realizado com sucesso! Faça login para acessar a página inicial.'
