@@ -1,11 +1,5 @@
 @media screen and (max-width: 1920px) {
-    .main {
-        background-color: white;
-        height: 90vh;
-        margin: 0px;
-    }
-    
-    .container {
+      .container {
         padding-top: 10px;
         background-color: #16324e;
         height: 60vh;
@@ -61,6 +55,11 @@
     
     #buttons button {
         width: 40%;
+    }
+
+    #try-again:hover {
+        border-bottom: 1px solid black;
+        cursor: pointer;
     }
 }
 

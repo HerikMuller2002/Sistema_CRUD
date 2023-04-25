@@ -10,7 +10,7 @@ def signup_style():
 
 def signup_layout():
     layout = html.Div(className='main', children=[
-        dbc.Row(style={'height': '15vh', 'margin': '0px'}),
+        dbc.Row(style={'height': '17vh', 'margin': '0px'}),
         dbc.Row([
             dbc.Col(html.Div()),
             dbc.Col(
@@ -41,7 +41,6 @@ def signup_layout():
             ),
             dbc.Col(html.Div())
         ]),
-        dbc.Row(style={'height': '15vh', 'margin': '0px'})
     ])
 
     return layout
@@ -63,8 +62,6 @@ def callbacks(app):
         if button_id == 'signup-submit':
             if len(password) == 0 or password == None and confirm_password == None or len(password) == 0 and len(confirm_password) == 0:
                 return 'Cadastre uma senha'
-            elif len(password) < 8 or len(confirm_password) < 8:
-                return 'A senha deve ter no mínimo 8 caracteres'
             elif password != confirm_password:
                 return 'As senhas não coincidem. Tente novamente.'
             else:

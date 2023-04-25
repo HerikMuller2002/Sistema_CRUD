@@ -15,11 +15,12 @@ server = Flask(__name__)
 server.secret_key = 'v3VzQNrLu72&'
 app.server.config['SESSION_TYPE'] = 'filesystem'
 Session(app.server)
+Session(app.server)
 
 # layout
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
-    html.Div(id='page-content')
+    html.Div(id='page-content', style={'background-color': 'white'})
 ])
 
 @app.callback(Output('page-content', 'children',allow_duplicate=True),
@@ -41,7 +42,7 @@ def layout_page(pathname):
         return '404 Página não encontrada'
     
 login.callbacks(app)
-signup.callbacks(app)
+# signup.callbacks(app)
 
 if __name__ == '__main__':
     app.run_server(debug=True,port=5000)
