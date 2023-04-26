@@ -1,13 +1,13 @@
-import dash
-from dash import html, dcc
-import dash_bootstrap_components as dbc
-from dash.dependencies import Input, Output, State
 import sys
 import os
+import dash
+import dash_bootstrap_components as dbc
+from flask import session
+from dash import html, dcc
+from dash.dependencies import Input, Output, State
 
 diretorio_pai = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, diretorio_pai)
-from pages.services.log import *
 from database.account import *
 
 def login_style():
@@ -15,7 +15,7 @@ def login_style():
     return style
 
 def login_layout():
-    layout = html.Div(children=[
+    layout = html.Div(style={'height':'100vh'},children=[
         dbc.Row(style={'height': '17vh', 'margin': '0px'}, children=[
             dbc.Col(),
             dbc.Col(dbc.Modal(id="modal-sm",size='sm', is_open=False, children=[
@@ -25,7 +25,7 @@ def login_layout():
                 ])),
             dbc.Col()
         ]),
-        dbc.Row([
+        dbc.Row(style={'height': '60vh', 'margin': '0px'}, children=[
             dbc.Col(),
             dbc.Col(
                 html.Div(className='container', id='login-box', children=[
@@ -51,7 +51,7 @@ def login_layout():
             ),
             dbc.Col()
         ]),
-        dbc.Row()
+        dbc.Row(style={'height': '23vh', 'margin': '0px'}, children=[])
     ])
 
     return layout
@@ -61,7 +61,7 @@ def callbacks(app):
         Output("modal-sm", "is_open"),
         [Input('login-button','n_clicks')],
         [Input('try-again','n_clicks')],
-        [State('username-input','value'), State('password-input','value'),],
+        [State('username-input','value'), State('password-input','value')],
         [State("modal-sm", "is_open")]
     )
     def message_error(button,try_again,username,password,is_open):
@@ -70,19 +70,27 @@ def callbacks(app):
         if button_id == "login-button":
             verify = verify_acces(username,password)
             if verify:
-                log({'user':username, 'authorized': True})
                 return is_open
             else:
                 return not is_open
-        elif button_id == "login-button":
-            return not is_open
             
     @app.callback(Output('password-input', 'value'),
               Output('username-input', 'value'),
               Input('login-button', 'n_clicks'))
-    def clear_password_field(n_clicks):
+    def clear_fields(n_clicks):
         return '',''
 
-    # @app.callback(
-    #     Output('url', 'pathname'),
-    # )
+    @app.callback(
+        Output('url', 'pathname'),
+        Input('login-button','n_clicks'),
+        [State('username-input','value'), State('password-input','value')]
+    )
+    def update_url(button,username,password):
+        ctx = dash.callback_context
+        button_id = ctx.triggered[0]['prop_id'].split('.')[0] if ctx.triggered else None
+        if button_id == "login-button":
+            verify = verify_acces(username,password)
+            if verify:
+                session['user'] = username
+                return '/admin'
+        return dash.no_update

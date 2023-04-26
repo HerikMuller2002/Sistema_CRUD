@@ -11,16 +11,16 @@ from pages import login, admin, signup
 app = dash.Dash(__name__,suppress_callback_exceptions=True, external_stylesheets=[dbc.themes.BOOTSTRAP,'https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap',login.login_style(), signup.signup_style()])
 app.config.prevent_initial_callbacks = 'initial_duplicate'
 
+# objeto server
 server = Flask(__name__)
-server.secret_key = 'v3VzQNrLu72&'
-app.server.config['SESSION_TYPE'] = 'filesystem'
-Session(app.server)
-Session(app.server)
+app.server.secret_key = 'fasfasf'
+server.config['SESSION_TYPE'] = 'filesystem'
+Session(server)
 
 # layout
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
-    html.Div(id='page-content', style={'background-color': 'white'})
+    html.Div(id='page-content', style={'height':'100vh', 'width':'100vw'})
 ])
 
 @app.callback(Output('page-content', 'children',allow_duplicate=True),
@@ -32,17 +32,14 @@ def layout_page(pathname):
         session.clear()
         return login.login_layout()
     elif pathname == '/admin' and 'user' in session:
-        if session['user'] != None:
             return admin.admin_layout()
-        else:
-            return login.login_layout()
     elif pathname == '/register':
         return signup.signup_layout()
     else:
         return '404 Página não encontrada'
     
 login.callbacks(app)
-# signup.callbacks(app)
+signup.callbacks(app)
 
 if __name__ == '__main__':
     app.run_server(debug=True,port=5000)

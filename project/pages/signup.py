@@ -9,9 +9,9 @@ def signup_style():
     return style
 
 def signup_layout():
-    layout = html.Div(className='main', children=[
+    layout = html.Div(style={'height':'100vh'},children=[
         dbc.Row(style={'height': '17vh', 'margin': '0px'}),
-        dbc.Row([
+        dbc.Row(style={'height': '60vh', 'margin': '0px'},children=[
             dbc.Col(html.Div()),
             dbc.Col(
                 html.Div(className='container', id='signup-box', children=[
@@ -39,7 +39,7 @@ def signup_layout():
                     ])
                 ])
             ),
-            dbc.Col(html.Div())
+            dbc.Col(style={'height': '23vh', 'margin': '0px'})
         ]),
     ])
 

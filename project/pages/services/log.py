@@ -3,7 +3,9 @@ import os
 
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "logs"))
 
-def log(**kwargs):
+def log(values):
+    if not os.path.exists(f'{path}\\authentication.log'):
+        os.makedirs(f'{path}\\authentication.log')
     # Configura o logger
     logging.basicConfig(filename= os.path.join(path, 'authentication.log'), level=logging.INFO)
     # Verifica se o arquivo de log existe
@@ -17,8 +19,15 @@ def log(**kwargs):
                 # Adiciona uma linha em branco antes de adicionar o novo registro de log
                 f.write('\n')
     # Adiciona o novo registro de log
-    for chave, valor in kwargs.items():        
+    for chave, valor in values.items():        
         logging.info(f'{chave}: {valor}')
+
+
+
+a = {'user':'herik', 'authorized': True}
+log(a)
+
+
 
 def clear_log():
     try:
