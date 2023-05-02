@@ -31,8 +31,9 @@ def layout_page(pathname):
     if pathname == '/' or pathname == '/login':
         session.clear()
         return login.login_layout()
-    elif pathname == '/admin' and 'user' in session:
-            return admin.admin_layout()
+    # elif pathname == '/admin' and 'user' in session:
+    elif pathname == '/admin':
+        return admin.admin_layout()
     elif pathname == '/register':
         return signup.signup_layout()
     else:

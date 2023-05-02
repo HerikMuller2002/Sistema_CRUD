@@ -1,12 +1,14 @@
-@media screen and (max-width: 1920px) {    
+@media screen and (max-width: 1919px) {    
     .container {
         padding-top: 10px;
         background-color: #16324e;
         height: 70vh;
+        width: 50vw;
     }
     
     #logo img{
         display: flex;
+        margin-top: 40px;
         margin-left: auto;
         margin-right: auto;
         height: 18vh;
@@ -70,10 +72,12 @@
         padding-top: 30px;
         background-color: #16324e;
         height: 70vh;
+        width: 35vw;
     }
     
     #logo img{
         display: flex;
+        margin-top: 10px;
         margin-left: auto;
         margin-right: auto;
         height: 18vh;
