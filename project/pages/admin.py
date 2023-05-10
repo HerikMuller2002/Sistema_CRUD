@@ -77,11 +77,23 @@ dropdown = html.Div(id='filter',children=[
 table = dbc.Table.from_dataframe(df, striped=True, bordered=True, hover=True)
 ####################
 
+def admin_style():
+    style = '/assets/css/admin.css'
+    return style
+
 def admin_layout():
     layout = html.Div([
-        html.Header(style={'background-color': 'black'},children=[
+        html.Header([
             html.Img(src="/assets/img/logo-semeq-branco.png"),
-            search_bar
+        ]),
+        html.Div(className="wrapper",children=[
+            html.Div(className="sidebar",children=[
+                dropdown
+            ]),
+            html.Div(className="main",children=[
+                html.H1("Administração"),
+                table
+            ])
         ])
     ])
     return layout

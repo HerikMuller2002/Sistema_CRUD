@@ -8,7 +8,7 @@ from dash.dependencies import Input, Output, State
 from pages import login, admin, signup
 
 # objeto app
-app = dash.Dash(__name__,suppress_callback_exceptions=True, external_stylesheets=[dbc.themes.BOOTSTRAP,'https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap',login.login_style(), signup.signup_style()])
+app = dash.Dash(__name__,suppress_callback_exceptions=True, external_stylesheets=[dbc.themes.BOOTSTRAP,'https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap',login.login_style(), signup.signup_style(),admin.admin_style()])
 app.config.prevent_initial_callbacks = 'initial_duplicate'
 
 # objeto server

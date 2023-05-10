@@ -1,0 +1,26 @@
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    height: calc(100vh - 60px); /* altura total - altura do header */
+}
+
+.sidebar {
+    background-color: #555;
+    color: #fff;
+    height: 100%;
+    width: 20vw;
+    padding: 20px;
+}
+
+.main {
+    background-color: #fff;
+    height: 100%;
+    flex: 1; /* expande o main para ocupar o espaço restante */
+    padding: 20px;
+}
