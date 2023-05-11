@@ -1,136 +1,113 @@
-@media screen and (max-width: 1919px) {
-      .container {
-        padding-top: 10px;
-        background-color: #16324e;
-        height: 60vh;
-        width: 50vw;
-    }
-    
-    #logo img{
-        display: flex;
-        margin-top: 40px;
-        margin-left: auto;
-        margin-right: auto;
-        height: 18vh;
-    }
-    
-    #login-form {
-        display: flex;
-        justify-content: center;
-    }
-    
-    #form-login {
-        width: 80%;
-    }
-    
-    #form-login label{
-        color: white;
-    }
-    
-    #login-form h2 {
-        margin-top: 25px;
-        margin-bottom: 0px;
-        text-align: center;
-        color: white;
-    }
-    
-    #username-input, #password-input {
-        display: flex;
-        text-align: center;
-        width: 100%;
-        padding: 5px;
-        padding-left: 10px;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 15px;
-        text-align: left;
-        height: 6vh;
-        font-size: 15px;
-    }
-    
-    #buttons {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 10px;
-    }
-    
-    #buttons button {
-        width: 40%;
-    }
-
-    #try-again:hover {
-        border-bottom: 1px solid black;
-        cursor: pointer;
-    }
+body {
+    background-color: #141C2B;
+    width: 100%;
 }
 
-@media screen and (min-width: 1920px) {
-    .main {
-        background-color: white;
-        height: 90vh;
-        margin: 0px;
+
+/* Conteúdo da página */
+#login-box{
+    background-color: #141C2B;
+    width: 100vw;
+    width: 45vw;
+    height: 50 vh;
+    display: block;
+    text-align: center;
+    padding: 80px;
+}
+
+@media only screen and (max-width: 1080px) {
+    #login-box {
+      width: 70vw;
     }
+  }
+
+@media only screen and (max-width: 600px) {
+    #login-box {
+      width: 80vw;
+    }
+  }
+
+
+/* logo */
+#login-logo-img{
+    width: 85%;
+    height: auto;
+}
+
+/* Formulário */
+#form-box{
+    margin-top: 10%;
+    display: block;
+    text-align: center;
+    /* background-color: #4f5f7a2f; */
+    width: 100%;
+    height: 100%;
+}
+
+/* titulo login */
+#login-title{
+    color: #ffffff;
+    display: block;
+    width: 100%;
+    margin: 0;
+    margin-bottom: 3px;
+    height: auto;
+}
+
+#login-title-text{
+    font-size: 1.45rem;
+    width: 100%;
+    text-align: center;
+}
+
+/* Input Form */
+.login-inputs {
+    display: block;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: black;
+}
+
+.login-inputs input {
+    width: 100%;
+    height: 3.5rem;
+    border-radius: .3rem;
+    border: none;
+    padding: .8rem;
+    font-size: 1.3rem;
+    font-weight: 500;
+    /* background-color: #343d4e1f; */
+    transition: all .2s ease-in-out;
+    pointer-events: all;
+    background-color: #1c273c;
     
-    .container {
-        padding-top: 30px;
-        background-color: #16324e;
-        height: 60vh;
-        width: 35vw;
-    }
-    
-    #logo img{
-        display: flex;
-        margin-top: 10px;
-        margin-left: auto;
-        margin-right: auto;
-        height: 18vh;
-    }
-    
-    #login-form {
-        display: flex;
-        justify-content: center;
-    }
-    
-    #form-login {
-        width: 80%;
-    }
-    
-    #form-login label{
-        color: white;
-    }
-    
-    #login-form h2 {
-        margin-top: 25px;
-        margin-bottom: 0px;
-        text-align: center;
-        color: white;
-        font-size: 40px;
-    }
-    
-    #username-input, #password-input {
-        display: flex;
-        text-align: center;
-        width: 100%;
-        padding: 5px;
-        padding-left: 10px;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 25px;
-        text-align: left;
-        height: 7vh;
-        font-size: 20px;
-    }
-    
-    #buttons {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 20px;
-        font-size: 17px;
-    }
-    
-    #buttons button {
-        width: 40%;
-    }
+}
+
+#login-inputs input:focus {
+    /* border-bottom: 1px #0168fa solid; */
+    transition: all .2s ease-in-out;
+    background-color: #1c273c;
+}
+
+#inputEmail, #inputPassword{
+    /* background-color: #ffffff; */
+    color: white;
+    background-color: #1c273c;
+}
+
+/* botão */
+#buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+#btn-login {
+    width: 35%;
+    /* margin-right: 10px; */
+}
+
+#forgot-pass {
+    text-decoration: none;
+    /* margin-left: 20px; */
 }

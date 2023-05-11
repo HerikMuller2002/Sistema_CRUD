@@ -1,5 +1,5 @@
 header {
-    background-color: #333;
+    background-color: #1c273c;
     color: #fff;
     padding: 20px;
 }
@@ -8,19 +8,46 @@ header {
     display: flex;
     flex-direction: row;
     height: calc(100vh - 60px); /* altura total - altura do header */
+    width: 100%;
 }
 
 .sidebar {
-    background-color: #555;
+    background-color: #1c273c;
     color: #fff;
     height: 100%;
-    width: 20vw;
+    width: 15vw;
     padding: 20px;
 }
 
 .main {
-    background-color: #fff;
+    background-color: #141c2b;
+    color: white;
     height: 100%;
     flex: 1; /* expande o main para ocupar o espaço restante */
     padding: 20px;
+    width: 85vw;
+}
+
+.logo {
+    width: 130px;
+}
+
+.table {
+    overflow-y: scroll;
+    overflow-x: scroll;
+    height: auto;
+    width: auto;
+    max-height: 80%;
+    max-width: 90%;
+    margin: 0;
+    padding: 0;
+}
+
+#filter {
+    display:contents
+}
+
+.dpd {
+    width: 200px;
+    color: black;
 }

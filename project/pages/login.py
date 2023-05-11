@@ -15,44 +15,73 @@ def login_style():
     return style
 
 def login_layout():
-    layout = html.Div(style={'height':'100vh'},children=[
-        dbc.Row(style={'height': '17vh', 'margin': '0px'}, children=[
-            dbc.Col(),
-            dbc.Col(dbc.Modal(id="modal-sm",size='sm', is_open=False, children=[
-                dbc.ModalHeader(dbc.ModalTitle("Authentication Error")),
-                dbc.ModalBody("Invalid username or password!"),
-                dbc.ModalFooter(style={'font-size':'15px','font-weight':'bold'},children=[html.A('Please try again',id='try-again')])
-                ])),
-            dbc.Col()
-        ]),
-        dbc.Row(style={'height': '60vh', 'margin': '0px'}, children=[
-            dbc.Col(),
-            dbc.Col(
-                html.Div(className='container', id='login-box', children=[
-                    html.Div(id='logo',children=[
-                        html.Img(src='assets/img/logo-semeq-branco.png',alt='logo')
+    layout = html.Div(
+            id='login-box',
+            className='container',
+            children=[
+                html.Div(
+                    id='login-logo',
+                    children=[
+                        html.Img(
+                            id='login-logo-img',
+                            src='assets/img/logo-semeq-branco.png'
+                        )
                     ]),
-                    html.Form(id='login-form', className='form', children=[
-                        html.Div(id='form-login', children=[
-                            html.H2('Login', className='title'),
-                            html.Div(className='form-group', children=[
-                                dcc.Input(type='text', id='username-input', placeholder='Username')
-                            ]),
-                            html.Div(className='form-group', children=[
-                                dcc.Input(type='password', id='password-input', placeholder='Password')
-                            ]),
-                            html.Div(id='buttons', className='form-group', children=[
-                                    dbc.Button("Login", type='button', color="primary",outline=True, className="me-1", id='login-button', n_clicks=0),
-                                    html.A('Register here', href='/register', id='signup-button')
+                html.Form(
+                    className='container',
+                    id='form-box',
+                    children=[
+                        html.Div(
+                            id='login-title',
+                            className='container',
+                            children=[
+                                html.H1(
+                                    id='login-title-text',
+                                    children='Sistema de gerenciamento de suporte'
+                                )
+                            ]
+                        ),
+                        html.Div(
+                            id='login-inputs',
+                            className='login-inputs',
+                            children=[
+                                html.Div(
+                                    className='form mb-3',
+                                    children=[
+                                        dcc.Input(
+                                            className='form-control',
+                                            id='inputEmail',
+                                            type='email',
+                                            placeholder='Email'
+                                        )]
+                                ),
+                                html.Div(
+                                    className='form mb-3',
+                                    children=[
+                                        dcc.Input(
+                                            className='form-control',
+                                            id='inputPassword',
+                                            type='password',
+                                            placeholder='Password'
+                                        )]
+                                ),
+                                html.Div(id="buttons", children=[
+                                    html.A(
+                                        'Forgot Password?',
+                                        # className='btn btn-primary',
+                                        id='forgot-pass',
+                                        href='#'
+                                    ),
+                                    html.A(
+                                        'Login',
+                                        className='btn btn-primary',
+                                        id='btn-login',
+                                        href='#'
+                                    )
+                                ])
                             ])
-                        ])
                     ])
-                ])
-            ),
-            dbc.Col()
-        ]),
-        dbc.Row(style={'height': '23vh', 'margin': '0px'}, children=[])
-    ])
+            ])
 
     return layout
 
