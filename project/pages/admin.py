@@ -30,22 +30,24 @@ search_bar = dbc.Row(id='search',children=[
 ######################
 list_subject = []
 for subject in list(set(df[df.columns[0]])):
-    list_subject.append({"label": subject, "value": 1})
+    list_subject.append({"label": subject, "value": subject})
+list_subject.insert(0,{"label": 'All subject', "value": 'All'})
 
 dropdown = html.Div(id='filter', children=[
         dbc.Label(
             html.Span("Subject",
-                id="tooltip-target",
-                style={"textDecoration": "underline", "cursor": "pointer"}),
+                id="tooltip-target"),
                 html_for="dropdown"
             ),
             dbc.Tooltip(
                 "Assunto do problema",
                 target="tooltip-target", placement='top'
             ),
-        dcc.Dropdown(id="dropdown-subject",className="mb-3 dpd",
-            options=list_subject)
+        dcc.Dropdown(id="my-dropdown",className="mb-3 dpd",
+            options=list_subject,
+            value=None)
     ])
+
 ####################
 # table = dbc.Table.from_dataframe(df, striped=False, bordered=False, hover=False, id='table')
 table = dbc.Container(class_name='table', children=[
@@ -87,7 +89,7 @@ def admin_layout():
         ]),
         html.Div(className="wrapper",children=[
             html.Div(className="sidebar",children=[
-                # dropdown
+                dropdown
             ]),
             html.Div(className="main",children=[
                 dropdown,
@@ -103,11 +105,17 @@ def callbacks(app):
     def update_graphs(active_cell):
         return str(active_cell) if active_cell else "Click the table"
     
-    @app.callback(
-        Output('output', 'children'),
-        [Input({'type': 'dropdown-subject', 'index': ALL}, 'n_clicks')]
-    )
-    def print_dropdown_value(value):
-        for i, n in enumerate(value):
-            if n:
-                print(f'Opção selecionada: {list_subject[i]["label"]}')
+    @app.callback(Output("table_id", "data"), 
+                  [State('table_id', "data"), Input("my-dropdown", "value")])
+    def update_output(data,value):
+        if value is not None:
+            if value == 'All':
+                return df.to_dict("records")
+            else:
+                df2 = df.loc[df['subject']==value]
+                return df2.to_dict("records")
+        else:
+            return df.to_dict("records")
+
+    if __name__ == "__main__":
+        app.run_server(debug=True)
