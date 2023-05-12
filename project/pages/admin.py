@@ -31,7 +31,6 @@ search_bar = dbc.Row(id='search',children=[
 list_subject = []
 for subject in list(set(df[df.columns[0]])):
     list_subject.append({"label": subject, "value": subject})
-list_subject.insert(0,{"label": 'All subject', "value": 'All'})
 
 dropdown = html.Div(id='filter', children=[
         dbc.Label(
@@ -89,7 +88,8 @@ def admin_layout():
         ]),
         html.Div(className="wrapper",children=[
             html.Div(className="sidebar",children=[
-                dropdown
+                dropdown,
+                html.A(id="table_out", children=[])
             ]),
             html.Div(className="main",children=[
                 dropdown,
@@ -100,8 +100,8 @@ def admin_layout():
     return layout
 
 def callbacks(app):
-    @app.callback(Output('tbl_out', 'children'), 
-                  Input('tbl', 'active_cell'))
+    @app.callback(Output('table_out', 'children'), 
+                  Input('table_id', 'active_cell'))
     def update_graphs(active_cell):
         return str(active_cell) if active_cell else "Click the table"
     
@@ -109,13 +109,7 @@ def callbacks(app):
                   [State('table_id', "data"), Input("my-dropdown", "value")])
     def update_output(data,value):
         if value is not None:
-            if value == 'All':
-                return df.to_dict("records")
-            else:
-                df2 = df.loc[df['subject']==value]
-                return df2.to_dict("records")
+            df2 = df.loc[df['subject']==value]
+            return df2.to_dict("records")
         else:
             return df.to_dict("records")
-
-    if __name__ == "__main__":
-        app.run_server(debug=True)
