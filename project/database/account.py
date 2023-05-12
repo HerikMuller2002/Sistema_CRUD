@@ -48,3 +48,12 @@ def importar_tabela(nome_banco, nome_tabela):
     df = pd.read_sql_query(query, conn)
     conn.close()
     return df
+
+def listar_tabelas(nome_banco):
+    conn = sqlite3.connect(nome_banco)
+    cursor = conn.cursor()
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    tabelas = [tupla[0] for tupla in cursor.fetchall()]
+    conn.close()
+    tabelas.remove("sqlite_sequence")
+    return tabelas
