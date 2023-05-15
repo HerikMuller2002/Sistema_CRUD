@@ -95,12 +95,7 @@ table = dash_table.DataTable(
                 'overflowx': 'auto',
                 'font-family': 'Roboto'
                 },
-            style_data_conditional=[{
-                'if': {'state': 'active'},
-                'backgroundColor': 'blue',
-                'color': 'white',
-                'border': '0'
-            }]
+            style_data_conditional=[{}]
         )
 
 ####################
@@ -160,5 +155,37 @@ def admin_layout():
     return layout
 
 ####################
+selected_cell = None
 def callbacks(app):
-    ...
+    # @app.callback(
+    #     [Output('table_id','style_data_conditional')],
+    #     [Input('table_id','active_cell')],
+    # )
+
+    @app.callback(
+     Output('table_id','style_data_conditional'),
+     Input('table_id','active_cell'),
+    )
+    def marcando_linha(cell):
+        global selected_cell
+        if cell:
+            return [{'if': {
+                        'row_index': cell['row'],
+                    },
+                    'backgroundColor': 'rgb(1, 104, 250, 0.6)',
+                    'color': 'white',
+                    'border': '0',
+                    'border-left': '0',
+                    'border-right': '0'
+                    },
+                    {
+                    'if': {'state': 'active'},
+                    'backgroundColor': 'rgb(1, 104, 250, 0.6)',
+                    'color': 'white',
+                    'border': '0',
+                    'border-left': '0',
+                    'border-right': '0'
+                    # 'border': '0'
+                    }]
+        else:
+            return []

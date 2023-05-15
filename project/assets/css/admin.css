@@ -119,8 +119,8 @@
 
 
 #btn-crud {
-    font-size: 1.1rem;
-    width: 90px;
+    /* font-size: 1.1rem; */
+    width: 80px;
     height: 40px;
     display: flex;
     -ms-flex-item-align: baseline;
@@ -137,8 +137,8 @@
 }
 
 #add-row {
-    font-size: 1.1rem;
-    width: 140px;
+    /* font-size: 1.1rem; */
+    width: 100px;
     height: 40px;
     display: flex;
     -ms-flex-item-align: baseline;
@@ -159,5 +159,5 @@
 }
 
 #search {
-    width: 50%;
+    width: 40%;
 }

@@ -69,7 +69,7 @@ app = dash.Dash(__name__)
 
 app.layout = html.Div([
     dash_table.DataTable(
-        id='adding-rows-table',
+        id='table',
         columns=[{"name": i, "id": i} for i in df.columns],
         data=df.to_dict('records'),
         # coluna fixa
@@ -78,6 +78,8 @@ app.layout = html.Div([
             # editable=True,
         # linha deletavel
         row_deletable=True,
+        row_selectable='single',
+        selected_rows=[],
         # opção de download
         export_format='xlsx',
         export_headers='display',
@@ -110,15 +112,34 @@ app.layout = html.Div([
     html.Button('Add Row', id='editing-rows-button', n_clicks=0),
 ])
 
-@app.callback(
-    Output('adding-rows-table', 'data'),
-    Input('editing-rows-button', 'n_clicks'),
-    State('adding-rows-table', 'data'),
-    State('adding-rows-table', 'columns'))
-def add_row(n_clicks, rows, columns):
-    if n_clicks > 0:
-        rows.append({c['id']: '' for c in columns})
-    return rows
+# @app.callback(
+#     Output('adding-rows-table', 'data'),
+#     Input('editing-rows-button', 'n_clicks'),
+#     State('adding-rows-table', 'data'),
+#     State('adding-rows-table', 'columns'))
+# def add_row(n_clicks, rows, columns):
+#     if n_clicks > 0:
+#         rows.append({c['id']: '' for c in columns})
+#     return rows
+
+# prev_active_cell = None
+# @app.callback(
+#     Output('adding-rows-table', 'style_data_conditional'),
+#     Input('adding-rows-table', 'active_cell'),
+#     State('adding-rows-table', 'style_data_conditional')
+# )
+# def highlight_row(active_cell, style_data_conditional):
+#     global prev_active_cell
+#     if active_cell == prev_active_cell:
+#         # cell was clicked twice
+#         row_index = active_cell['row']
+#         return style_data_conditional + [{
+#             'if': {'index': row_index},
+#             'backgroundColor': 'red'
+#         }]
+#     else:
+#         prev_active_cell = active_cell
+#         return style_data_conditional
 
 # @app.callback(
 #      Output('adding-rows-table','style_data_conditional'),
@@ -133,6 +154,35 @@ def add_row(n_clicks, rows, columns):
 #                 'color': 'white'}]
 #      else:
 #           return []
+
+@app.callback(
+    Output('table', 'style_data_conditional'),
+    Output('table', 'selected_rows'),
+    Input('table', 'active_cell'),
+    State('table', 'style_data_conditional'),
+    State('table', 'selected_rows'),
+    prevent_initial_call=True
+)
+def highlight_row(active_cell, style_data_conditional, selected_rows):
+    if active_cell is not None:
+        if active_cell['row'] in selected_rows:
+            # Double click on an already selected cell
+            style_data_conditional = [
+                style for style in style_data_conditional
+                if style['if']['row_index'] != active_cell['row']
+            ]
+            selected_rows.remove(active_cell['row'])
+        elif active_cell['row'] not in selected_rows and active_cell['n_clicks'] == 2:
+            # Double click on a cell
+            selected_rows.append(active_cell['row'])
+            style_data_conditional.append({
+                'if': {'row_index': active_cell['row']},
+                'backgroundColor': 'red',
+                'color': 'white'
+            })
+
+    return style_data_conditional, selected_rows
+
 
 if __name__ == '__main__':
         app.run_server(debug=True,port=8000)
