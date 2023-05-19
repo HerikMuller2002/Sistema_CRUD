@@ -6,6 +6,7 @@ from dash.dependencies import Input, Output, State, ALL
 import sys
 import os
 import json
+import dash
 from datetime import datetime
 
 diretorio_pai = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -37,7 +38,7 @@ search_bar = dbc.Row(id='search-bar',children=[
         dbc.Col(dbc.Input(type="search", placeholder="Search")),
         dbc.Col(
             dbc.Button(
-                "Search", color="primary",outline=False, className="ms-2", n_clicks=0
+                "Search", id='search-button', color="primary",outline=False, className="ms-2", n_clicks=0
             ),
             width="auto",
         ),
@@ -119,16 +120,13 @@ def admin_layout():
             html.Div(id="main-content",children=[
                 html.Div(id='table-actions',children=[
                     html.Div(id='crud',children=[
-                        dbc.Button(color="success", className="me-1", id='add-row',children=[
-                            html.P('Add row'),
+                        dbc.Button(color="success", className="me-1", id='btn-crud',children=[
                             html.Img(src=r"assets\img\plus-solid.svg")
                             ]),
                         dbc.Button(color="primary", className="me-1", id='btn-crud',children=[
-                            html.P('Edit'),
                             html.Img(src=r"assets\img\pen-to-square-solid.svg")
                             ]),
                         dbc.Button(color="danger", id='btn-crud',children=[
-                            html.P('Delete'),
                             html.Img(src=r"assets\img\trash-can-solid.svg")
                             ]),
                     ]),
@@ -172,7 +170,7 @@ def callbacks(app):
             return [{'if': {
                         'row_index': cell['row'],
                     },
-                    'backgroundColor': 'rgb(1, 104, 250, 0.6)',
+                    'backgroundColor': 'rgb(1, 104, 250, 0.8)',
                     'color': 'white',
                     'border': '0',
                     'border-left': '0',
@@ -180,7 +178,7 @@ def callbacks(app):
                     },
                     {
                     'if': {'state': 'active'},
-                    'backgroundColor': 'rgb(1, 104, 250, 0.6)',
+                    'backgroundColor': 'rgb(1, 104, 250, 0.8)',
                     'color': 'white',
                     'border': '0',
                     'border-left': '0',
@@ -189,3 +187,25 @@ def callbacks(app):
                     }]
         else:
             return []
+        
+    @app.callback(
+        [Output('table_id', 'data')],
+        [State('search-bar', 'children'),
+         Input('search-button', 'n-clicks'),
+         Input('table_id', 'data')],
+    )
+    def filter_table(search, button, df):
+        print(search)
+        # search_input = search[0]['props']['children'][0]['props']['value']
+        if search_input != None:
+            print(1)
+            df = pd.DataFrame(df)
+            df.astype(str)
+            def text_in_field(texto):
+                if isinstance(texto, str):
+                    return search.lower() in texto.lower()
+                return False
+            filtro = df.applymap(text_in_field).any(axis=1)
+            result= df[filtro]
+            return result.to_dict('records')
+        return [df]

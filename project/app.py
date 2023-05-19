@@ -39,8 +39,8 @@ def layout_page(pathname):
     else:
         return '404 Página não encontrada'
     
-# login.callbacks(app)
-# signup.callbacks(app)
+login.callbacks(app)
+signup.callbacks(app)
 admin.callbacks(app)
 
 if __name__ == '__main__':
