@@ -48,7 +48,7 @@
 
 }
 
-#table {
+#table-container {
     height: auto;
     width: auto;
     max-height: 100%;
@@ -115,16 +115,14 @@
     height: auto;
     max-width: 30%;
     max-height: 20%;
-}
-
-#btn-crud {
     justify-content: center;
     padding: 5px;
     width: 60px;
     color: white;
+    margin-left: 50px;
 }
 
-#btn-crud img {
+#crud img {
     height: 20px;
     margin-bottom: 2px;
     filter: invert(97%) sepia(8%) saturate(46%) hue-rotate(250deg) brightness(126%) contrast(100%);

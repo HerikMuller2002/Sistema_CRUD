@@ -1,50 +1,50 @@
 import dash
 import dash_bootstrap_components as dbc
-from dash import html, dcc
+from dash import html
+import pandas as pd
 from dash.dependencies import Input, Output, State
 
-app = dash.Dash(__name__)
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
-app.layout = html.Div([
-    dcc.Store(id='ctrl-key-store'),
-    html.Div(id='output'),
-    html.Button('Click me', id='button')
-])
+# Criação do DataFrame de exemplo
+data = {
+    'Nome': ['João', 'Maria', 'Pedro', 'Ana'],
+    'Idade': [25, 30, 35, 40],
+    'Cidade': ['São Paulo', 'Rio de Janeiro', 'Belo Horizonte', 'Brasília']
+}
+df = pd.DataFrame(data)
 
-
-@app.callback(
-    Output('ctrl-key-store', 'data'),
-    Input('button', 'n_clicks'),
-    State('ctrl-key-store', 'data'),
-    prevent_initial_call=True
+# Layout
+app.layout = dbc.Container(
+    [
+        dbc.Row(
+            dbc.Col(
+                dbc.Input(type="search", id="search-input", placeholder="Pesquisar"),
+                width=6,
+            ),
+        ),
+        dbc.Row(
+            dbc.Col(
+                html.Div(id="table-container"),
+            ),
+        ),
+    ],
+    fluid=True,
 )
-def update_ctrl_key_status(n_clicks, ctrl_key_status):
-    ctx = dash.callback_context
-    if ctx.triggered[0]['prop_id'] == 'button.n_clicks':
-        key_status = ctx.states['ctrl-key-store.data'] or {}
-        key_status[n_clicks] = True
-        return key_status
-    else:
-        return ctrl_key_status
 
-
+# Callback para filtrar a tabela
 @app.callback(
-    Output('output', 'children'),
-    Input('ctrl-key-store', 'modified_timestamp'),
-    State('ctrl-key-store', 'data'),
-    prevent_initial_call=True
+    Output("table-container", "children"),
+    Input("search-input", "value")
 )
-def handle_click(modified_timestamp, ctrl_key_status):
-    ctx = dash.callback_context
-    if ctx.triggered[0]['prop_id'] == 'ctrl-key-store.modified_timestamp':
-        last_key_status = ctx.states['ctrl-key-store.data']
-        last_n_clicks = max(last_key_status.keys())
-        if last_key_status[last_n_clicks]:
-            return 'Mouse click with Ctrl key pressed'
-        else:
-            return 'Mouse click without Ctrl key'
+def filter_table(search_value):
+    if search_value is None:
+        filtered_df = df
     else:
-        return ''
+        filtered_df = df[df['Nome'].str.contains(search_value, case=False)]
+    
+    table = dbc.Table.from_dataframe(filtered_df, striped=True, bordered=True, hover=True)
+    return table
 
 if __name__ == '__main__':
-    app.run_server(debug=True,port=5000)
+    app.run_server(debug=True)
