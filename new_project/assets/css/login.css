@@ -1,0 +1,122 @@
+body {
+    background-color: #141C2B;
+    width: 100%;
+}
+
+
+/* Conteúdo da página */
+main{
+    background-color: #141C2B;
+    /* width: 100vw; */
+    width: 45vw;
+    height: 50 vh;
+    display: block;
+    text-align: center;
+    padding: 80px;
+    margin: auto;
+}
+
+@media only screen and (max-width: 1080px) {
+    #login-box {
+      width: 70vw;
+    }
+  }
+
+@media only screen and (max-width: 600px) {
+    #login-box {
+      width: 80vw;
+    }
+  }
+
+/* logo */
+#login-logo-img{
+    width: 60%;
+    height: auto;
+}
+
+/* Formulário */
+#form-box{
+    margin-top: 10%;
+    display: block;
+    text-align: center;
+    /* background-color: #4f5f7a2f; */
+    width: 100%;
+    height: 100%;
+}
+
+/* titulo login */
+#login-title{
+    color: #ffffff;
+    display: block;
+    width: 100%;
+    margin: 0;
+    margin-bottom: 3px;
+    height: auto;
+}
+
+#login-title-text{
+    font-size: 1.45rem;
+    width: 100%;
+    text-align: center;
+}
+
+/* Input Form */
+.login-inputs {
+    display: block;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: black;
+}
+
+.login-inputs input {
+    width: 100%;
+    height: 3.5rem;
+    border-radius: .3rem;
+    border: none;
+    padding: .8rem;
+    font-size: 1.3rem;
+    font-weight: 500;
+    /* background-color: #343d4e1f; */
+    transition: all .2s ease-in-out;
+    pointer-events: all;
+    background-color: #1c273c;
+    
+}
+
+#login-inputs input:focus {
+    /* border-bottom: 1px #0168fa solid; */
+    transition: all .2s ease-in-out;
+    background-color: #1c273c;
+}
+
+#inputEmail, #inputPassword{
+    /* background-color: #ffffff; */
+    color: white;
+    background-color: #1c273c;
+    border: 0;
+    height: 3rem;
+}
+
+#inputEmail:-webkit-autofill,#inputPassword:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px #1c273c inset;
+  -webkit-text-fill-color: white;
+  transition: background-color 5000s ease-in-out 0s; /* Aumenta o tempo de transição para evitar a mudança de cor repentina */
+}
+
+
+/* botão */
+#buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+#btn-login {
+    width: 35%;
+    /* margin-right: 10px; */
+}
+
+#forgot-pass {
+    text-decoration: none;
+    /* margin-left: 20px; */
+}

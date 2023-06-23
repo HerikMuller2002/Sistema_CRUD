@@ -1,4 +1,4 @@
-from flask_session import Session
+# from flask_session import Session
 from flask import Flask, session
 
 import dash
@@ -15,7 +15,7 @@ app.config.prevent_initial_callbacks = 'initial_duplicate'
 server = Flask(__name__)
 app.server.secret_key = 'fasfasf'
 server.config['SESSION_TYPE'] = 'filesystem'
-Session(server)
+# Session(server)
 
 # layout
 app.layout = html.Div([

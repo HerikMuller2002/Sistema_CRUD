@@ -20,11 +20,15 @@
     margin-top: 80px;
 }
 
+#sidebar-filter.dpd{
+    background-color: red;
+}
+
 #sidebar-logo {
     display: flex;
     justify-content: center;
     width: 100%;
-    height: 10%;
+    height: 8%;
 }
 
 #logo {
