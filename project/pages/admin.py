@@ -67,7 +67,8 @@ table = dash_table.DataTable(
                 'backgroundColor': '#1c273c',
                 'color': 'white',
                 'font-weight': 'bold',
-                'font-size':'1.2rem',
+                'font-size':'1.0rem',
+                'fontFamily': 'Arial',
                 'textAlign': 'left',
                 'padding': '8px',
                 'top': '0',
@@ -82,7 +83,8 @@ table = dash_table.DataTable(
                 'textAlign': 'left',
                 'border': '2px solid #141c2b',
                 'padding': '8px',
-                'font-size':'1rem'
+                'font-size':'0.9rem',
+                'fontFamily': 'Arial'
             },
             style_table={
                 'padding': '0', 

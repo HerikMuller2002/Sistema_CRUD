@@ -1,9 +1,8 @@
-#wraper {
-    display: flex;
-    flex-direction: row;
-    height: calc(100vh - 60px);
-    width: 100vw;
+main{
+    background-color: #141C2B;
     margin: 0;
+    padding: 0;
+    display: flex;
 }
 
 #sidebar {
@@ -12,46 +11,50 @@
     background-color: #1c273c;
     color: #fff;
     height: 100vh;
-    width: 15vw;
+    width: 200px;
     padding: 20px;
 }
 
 #sidebar-filter {
+    width: 100%;
     margin-top: 80px;
+    margin-right: 0;
+    /* display: flex; */
+    flex-direction: column;
+    justify-content: center;
 }
 
-#sidebar-filter.dpd{
-    background-color: red;
+.ass {
+    margin-bottom: 10px;
+}
+
+.select2 {
+    width: 100% !important;
 }
 
 #sidebar-logo {
-    display: flex;
+    display: block;
     justify-content: center;
-    width: 100%;
-    height: 8%;
+    /* width: 100%;
+    height: 8%; */
+    max-width: 100%;
+    max-height: 8%;
+
 }
 
 #logo {
-    height: auto;
     width: auto;
-    max-width: 100%;
-    max-height: 100%;
+    height: auto;
 }
 
-.dpd {
-    color: black;
-}
-
-#main-contet {
+#main-content {
     background-color: #141c2b;
     color: white;
     height: 100vh;
-    flex: 1; /* expande o main para ocupar o espaço restante */
+    flex: 1;
     padding: 20px 20px 20px 10px;
     width: 100vw;
-
 }
-
 #table-container {
     height: auto;
     width: auto;
@@ -61,7 +64,7 @@
     padding: 0;
 }
 
-#table-actions {
+#main-content-top {
     max-width: 100%;
     max-height: 20%;
     width: auto;
@@ -69,7 +72,7 @@
     display: flex;
     -ms-flex-item-align: baseline;
     justify-content: space-between;
-    margin: 20px;
+    /* margin: 20px; */
 }
 
 
@@ -112,7 +115,7 @@
     filter: invert(97%) sepia(8%) saturate(46%) hue-rotate(250deg) brightness(126%) contrast(100%);
 }
 
-#crud {
+#crud-btn {
     display: flex;
     -ms-flex-item-align: baseline;
     width: auto;
@@ -126,7 +129,7 @@
     margin-left: 50px;
 }
 
-#crud img {
+#crud-btn img {
     height: 20px;
     margin-bottom: 2px;
     filter: invert(97%) sepia(8%) saturate(46%) hue-rotate(250deg) brightness(126%) contrast(100%);
@@ -138,4 +141,13 @@
 
 #search {
     width: 40%;
+}
+
+@media (max-width: 600px) {
+    #main-content-top {
+        max-width: 100%;
+        -ms-flex-item-align: baseline;
+        justify-content: space-between;
+        /* margin: 20px; */
+    }
 }
