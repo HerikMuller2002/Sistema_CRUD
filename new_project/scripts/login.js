@@ -9,9 +9,6 @@ document.addEventListener("DOMContentLoaded", function() {
       var email = inputEmail.value;
       var password = inputPassword.value;
   
-      console.log("Email: " + email);
-      console.log("Password: " + password);
-  
       if (email === "admin" && password === "123") {
         window.location.href = "/new_project/pages/admin.html";
       } else {
