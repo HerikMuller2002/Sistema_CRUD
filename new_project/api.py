@@ -1,7 +1,8 @@
-from flask import Flask, jsonify, request, session
-from flask_cors import CORS
+import os
+from flask import Flask, jsonify, request, session, render_template
+from flask_cors import CORS,cross_origin
 from flask_session import Session
-from utils.database import get_databases, get_table, update_table
+from utils.database import get_list_names, get_table, update_table
 from utils.keys import generate_secret_key
 
 app = Flask(__name__)
@@ -10,10 +11,22 @@ app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
 CORS(app)
 
-@app.route('/get_databases', methods=['GET'])
-def get_databases_route():
-    databases = get_databases()
-    return jsonify(databases)
+# HTML
+@app.route('/', methods=['GET'])
+def index():
+    return render_template('login.html')
+
+@app.route('/admin')
+def admin_page():
+    session['session_id'] = os.urandom(16).hex()
+    return render_template('admin.html')
+
+
+# API
+@app.route('/get_list_names', methods=['GET'])
+def get_list_names_route():
+    list_names = get_list_names()
+    return jsonify(list_names)
 
 @app.route('/select_table', methods=['POST'])
 def select_table_route():

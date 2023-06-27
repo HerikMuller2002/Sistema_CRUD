@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
       var password = inputPassword.value;
   
       if (email === "admin" && password === "123") {
-        window.location.href = "/new_project/pages/admin.html";
+        window.location.href = "admin";
       } else {
           inputEmail.style.border = '1px solid red';
           inputPassword.style.border = '1px solid red';
