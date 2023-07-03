@@ -266,11 +266,18 @@ downloadBtn.addEventListener('click', exportToExcel);
 
 // Função para abrir o modal
 function openModal(button) {
-  var buttonId = button.id;
-  console.log(buttonId)
-  
   var modal = document.getElementById('modal-crud-add');
-  modal.style.display = 'flex';
+  if (button === 'add'){
+    modal.style.display = 'flex';
+  }else if(button === 'edit') {
+    modal = document.getElementById('modal-crud-edit');
+    console.log(modal.style)
+    // modal.style.display = 'flex';
+  }else{
+    modal = document.getElementById('modal-crud-delete');
+    console.log(modal.style)
+    // modal.style.display = 'flex';
+  }
 }
 
 // Função para fechar o modal

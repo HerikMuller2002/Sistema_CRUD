@@ -46,7 +46,7 @@
           </div>
 
           <!-- Modal Edit-->
-          <div id="modal-crud-add" class="modal">
+          <div id="modal-crud-edit" class="modal">
             <div class="modal-content">
               <div id="header-modal">
                 <h2>Edit Line</h2>
@@ -61,7 +61,7 @@
           </div>
 
           <!-- Modal Delete-->
-          <div id="modal-crud-add" class="modal">
+          <div id="modal-crud-delete" class="modal">
             <div class="modal-content">
               <div id="header-modal">
                 <h2>Delete Line</h2>
@@ -77,13 +77,13 @@
 
             <div id="main-content-top" class="row">
                 <div id="crud-btn" class="col justify-content-start">
-                    <button class="btn btn-success me-1" id="add" onclick="openModal()" disabled>
+                    <button class="btn btn-success me-1" id="add" onclick="openModal(this.id)" disabled>
                       <img src="../static/img/plus-solid.svg" />
                     </button>
-                    <button class="btn btn-primary me-1" id="edit" onclick="openModal()" disabled>
+                    <button class="btn btn-primary me-1" id="edit" onclick="openModal(this.id)" disabled>
                       <img src="../static/img/pen-to-square-solid.svg" />
                     </button>
-                    <button class="btn btn-danger" id="delete" onclick="openModal()" disabled>
+                    <button class="btn btn-danger" id="delete" onclick="openModal(this.id)" disabled>
                       <img src="../static/img/trash-can-solid.svg" />
                     </button>
                 </div>
