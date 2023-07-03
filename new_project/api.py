@@ -21,23 +21,18 @@ def admin_page():
     session['session_id'] = os.urandom(16).hex()
     return render_template('admin.html')
 
-
 # API
 @app.route('/get_list_names', methods=['GET'])
 def get_list_names_route():
     list_names = get_list_names()
     return jsonify(list_names)
 
-@app.route('/select_table', methods=['POST'])
+@app.route('/get_table', methods=['POST'])
 def select_table_route():
-    global table
     data = request.json
     database_name = data['database_name']
     table_name = data['table_name']
     table = get_table(database_name,table_name)
-
-@app.route('/get_table', methods=['GET'])
-def get_table_route():
     return jsonify(table)
 
 @app.route('/update_table', methods=['POST'])

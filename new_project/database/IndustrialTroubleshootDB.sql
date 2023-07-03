@@ -1,26 +1,31 @@
-CREATE DATABASE equipment_failures;
+CREATE DATABASE IndustrialTroubleshootDB;
 
-USE equipment_failures;
+USE IndustrialTroubleshootDB;
 
-CREATE TABLE Problem (
+CREATE TABLE equipment (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  problem VARCHAR(255)
+  equipment_name_pt VARCHAR(50)
+  equipment_name_en VARCHAR(50)
 );
 
-CREATE TABLE Cause (
+CREATE TABLE issue (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  cause VARCHAR(255)
+  issue_description_pt VARCHAR(255)
+  issue_description_en VARCHAR(255)
 );
 
-CREATE TABLE Action (
+CREATE TABLE root_cause (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  action VARCHAR(255)
+  cause_pt VARCHAR(255)
+  cause_en VARCHAR(255)
 );
 
-CREATE TABLE Equipment (
+CREATE TABLE resolution (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  equipment VARCHAR(50)
+  resolution_action_pt VARCHAR(255)
+  resolution_action_en VARCHAR(255)
 );
+
 
 CREATE TABLE Troubleshooting (
   id INT PRIMARY KEY AUTO_INCREMENT,
