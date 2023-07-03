@@ -13,53 +13,99 @@
 <body>
 
     <main>
-        <div id="sidebar">
+          <div id="sidebar" class="col-sm-4">
             <div id="sidebar-logo">
                 <img src="../static/img/logo-semeq-branco.png" id="logo" class="img-fluid">
             </div>
             <div id="sidebar-filter">
                     <div class="filters">
                         <label>Database</label>
-                        <select class="js-example-matcher-start" id="dropdown_database"></select>
-                    </div>
-                    <div class="filters">
+                        <select class="js-example-matcher-start" id="dropdown_database" onchange="disabledFilter()"></select>
+                      </div>
+                      <div class="filters">
                         <label>Table</label>
-                        <select class="js-example-matcher-start" id="dropdown_tables" onchange="displaySelectedTable()"></select>
+                        <select class="js-example-matcher-start" id="dropdown_tables" onchange="displaySelectedTable()" disabled></select>
                     </div>
             </div>
         </div>
-        <div id="main-content">
+        <div id="main-content" class="col-sm-8">
+
+          <!-- Modal Add-->
+          <div id="modal-crud-add" class="modal">
+            <div class="modal-content">
+              <div id="header-modal">
+                <h2>Add Line</h2>
+              </div>
+              <div id="footer-modal">
+                <div id="btn-modal">
+                  <button type="button" class="btn btn-danger" id="btn-close-modal" onclick="closeModal()">Cancel</button>
+                  <button type="button" class="btn btn-success" id="btn-save">Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal Edit-->
+          <div id="modal-crud-add" class="modal">
+            <div class="modal-content">
+              <div id="header-modal">
+                <h2>Edit Line</h2>
+              </div>
+              <div id="footer-modal">
+                <div id="btn-modal">
+                  <button type="button" class="btn btn-danger" id="btn-close-modal" onclick="closeModal()">Cancel</button>
+                  <button type="button" class="btn btn-success" id="btn-save">Save Changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal Delete-->
+          <div id="modal-crud-add" class="modal">
+            <div class="modal-content">
+              <div id="header-modal">
+                <h2>Delete Line</h2>
+              </div>
+              <div id="footer-modal">
+                <div id="btn-modal">
+                  <button type="button" class="btn btn-danger" id="btn-close-modal" onclick="closeModal()">Cancel</button>
+                  <button type="button" class="btn btn-success" id="btn-save">Save Changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
             <div id="main-content-top" class="row">
                 <div id="crud-btn" class="col justify-content-start">
-                    <button class="btn btn-success me-1" id="add" >
+                    <button class="btn btn-success me-1" id="add" onclick="openModal()" disabled>
                       <img src="../static/img/plus-solid.svg" />
                     </button>
-                    <button class="btn btn-primary me-1" id="edit" disabled>
+                    <button class="btn btn-primary me-1" id="edit" onclick="openModal()" disabled>
                       <img src="../static/img/pen-to-square-solid.svg" />
                     </button>
-                    <button class="btn btn-danger" id="delete" disabled>
+                    <button class="btn btn-danger" id="delete" onclick="openModal()" disabled>
                       <img src="../static/img/trash-can-solid.svg" />
                     </button>
                 </div>
                 <div id='search' class="col">
-                    <input type="text" class="form-control" placeholder="Search..." id="search-bar">
+                    <input type="text" class="form-control" placeholder="Search..." id="search-bar" onkeyup="filterTable()">
                 </div>
                 <div id="help-export" class="col justify-content-end">
                     <button class="btn btn-secondary me-1" id="btn-help" disabled>
                       <p>Help</p>
                       <img src="../static/img/circle-question-regular.svg" />
                     </button>
-                    <button class="btn btn-primary me-1" id="btn-export">
+                    <button class="btn btn-primary me-1" id="btn-export" disabled>
                       <p>Download</p>
                       <img src="../static/img/file-export-solid.svg" />
                     </button>
                   </div>              
             </div>
-            <div id="main-content-bottom">
-            </div>
+            <div id="main-content-bottom"></div>
         </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="../static/scripts/admin.js"></script>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 </body>
 </html>
