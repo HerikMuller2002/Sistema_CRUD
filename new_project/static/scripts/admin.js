@@ -37,34 +37,39 @@ function options_dropdown_database(opcoes) {
     }
   }
   
-
-
-// Dropdown Filter tables
-function options_dropdown_tables(opcoes) {
+  
+  
+  // Dropdown Filter tables
+  function options_dropdown_tables(opcoes) {
   var select = document.getElementById('dropdown_tables');
-    select.innerHTML = '';
-    // Criar opção placeholder
-    var placeholderOption = document.createElement('option');
-   placeholderOption.value = '';
-   placeholderOption.text = 'Select...';
-   placeholderOption.disabled = true;
-   placeholderOption.selected = true;
+  select.innerHTML = '';
+  var placeholderOption = document.createElement('option');
+  placeholderOption.value = '';
+  placeholderOption.text = 'Select...';
+  placeholderOption.disabled = true;
+  placeholderOption.selected = true;
    select.appendChild(placeholderOption);
-   // Preencher opções
    for (var i = 0; i < opcoes.length; i++) {
      var option = document.createElement('option');
      option.value = opcoes[i];
      option.text = capitalize(opcoes[i]);
      select.appendChild(option);
    }
-}
+  }
 
-
-
-// função para pegar o nomes dos db e tabelas
+  // função para habilitar filter table
+  function disabledFilter(){
+    var select_db = document.getElementById('dropdown_database');
+    var select_table = document.getElementById('dropdown_tables');
+    var select_db_Value = select_db.value;
+    if (select_db_Value){
+      select_table.disabled = false;
+    }
+  }
+  
+  // função para pegar o nomes dos db e tabelas
 function get_list_names() {
   event.preventDefault();
-
   fetch(url_get_list_names + '/get_list_names')
     .then(response => response.json())
     .then(data => {
@@ -94,7 +99,7 @@ function create_table_div(tabela, divId) {
   var headerRow = document.createElement('tr');
   var columns = tabela[0];
   for (var i = 0; i < columns.length; i++) {
-    var columnName = columns[i];
+    var columnName = capitalize(columns[i]);
     var th = document.createElement('th');
     th.setAttribute('scope', 'col');
     th.textContent = columnName;
@@ -122,15 +127,6 @@ function create_table_div(tabela, divId) {
 }
 
 
-
-function disabledFilter(){
-  var select_db = document.getElementById('dropdown_database');
-  var select_table = document.getElementById('dropdown_tables');
-  var select_db_Value = select_db.value;
-  if (select_db_Value){
-    select_table.disabled = false;
-  }
-}
 
 
 // função para verificar select
