@@ -91,10 +91,6 @@ body{
     color: #fff !important;
 }
 
-#dropdown_tables:disabled {
-    opacity: 0.5;
-}
-
 .select2-selection__arrow{
     border-left: 2px solid #141C2B !important;
     height: 100% !important;
