@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // função para criar elemento tabela no HTML
+var columns = [];
 function create_table_div(tabela, divId) {
   var div = document.getElementById(divId);
   var table = document.createElement('table');
@@ -97,7 +98,7 @@ function create_table_div(tabela, divId) {
   table.setAttribute('id', "table");
   var thead = document.createElement('thead');
   var headerRow = document.createElement('tr');
-  var columns = tabela[0];
+  columns = tabela[0];
   for (var i = 0; i < columns.length; i++) {
     var columnName = capitalize(columns[i]);
     var th = document.createElement('th');
@@ -128,14 +129,15 @@ function create_table_div(tabela, divId) {
 
 
 
-
 // função para verificar select
+var select_table_Value = ''
+var select_db_Value = ''
 function displaySelectedTable() {
   var divId = 'main-content-bottom';
-  var select_table = document.getElementById('dropdown_tables');
   var select_db = document.getElementById('dropdown_database');
-  var select_db_Value = select_db.value;
-  var select_table_Value = select_table.value;
+  var select_table = document.getElementById('dropdown_tables');
+  select_db_Value = select_db.value;
+  select_table_Value = select_table.value;
   if (select_table_Value && select_db_Value) {
       var data = {
       'database_name': select_db_Value,
@@ -171,13 +173,13 @@ function displaySelectedTable() {
       }
     })
     .catch(function(error) {
-      console.error('Erro na requisição:', error);
+      console.error(error);
     });
   }
 }
 
 
-// Adicione um identificador único para cada linha da tabela
+// função para selecionar linha da tabela
 var selectedRow = null;
 var button_edit = document.getElementById("edit");
 var button_delete = document.getElementById("delete");
@@ -261,23 +263,72 @@ downloadBtn.addEventListener('click', exportToExcel);
 
 
 // Função para abrir o modal
+var name_button = '';
 function openModal(button) {
-  var modal = document.getElementById('modal-crud-add');
+  name_button = button
+  let modal = '';
   if (button === 'add'){
+    place_holder = 'Add...'
+    modal = document.getElementById('modal-crud-add');
     modal.style.display = 'flex';
-  }else if(button === 'edit') {
+  }else if(button === 'edit'){
+    place_holder = 'Edit...'
     modal = document.getElementById('modal-crud-edit');
-    console.log(modal.style)
-    // modal.style.display = 'flex';
-  }else{
+    modal.style.display = 'flex';
+  }else if(button === 'delete'){
+    place_holder = 'Delete...'
     modal = document.getElementById('modal-crud-delete');
-    console.log(modal.style)
-    // modal.style.display = 'flex';
+    modal.style.display = 'flex';
+  }
+  var middle_modal = `${modal.id}-middle`;
+  var modal_content = document.getElementById(middle_modal);
+  
+  var table = document.getElementById("table");
+  var cells = table.querySelectorAll("tbody td:nth-child(1)");
+  var lastValue = parseInt(cells[cells.length - 1].textContent);
+
+  modal_content.innerHTML = `
+    <div class="forms">
+      <label for="input-forms">Database</label>
+      <input type="text" id="input-forms" class="form-control" value="${capitalize(select_db_Value)}" disabled>
+    </div>
+    <div class="forms">
+      <label for="input-forms">Table</label>
+      <input type="text" id="input-forms" class="form-control" value="${capitalize(select_table_Value)}" disabled>
+    </div>
+  `;
+
+  for (var i = 0; i < columns.length; i++){
+    if (columns[i] === 'id'){
+      let new_div = `
+      <div class="forms">
+        <label for="input-forms">${capitalize(columns[i])}</label>
+        <input type="text" id="input-forms" class="form-control" value="${lastValue+1}" disabled>
+      </div>
+      `;
+      modal_content.innerHTML += new_div;
+    }else{
+      let new_div = `
+      <div class="forms">
+        <label for="input-forms">${capitalize(columns[i])}</label>
+        <input type="text" id="input-forms" class="form-control" placeholder="Add..">
+      </div>
+      `;
+      modal_content.innerHTML += new_div;
+    }
   }
 }
 
+
 // Função para fechar o modal
 function closeModal() {
-  var modal = document.getElementById('modal-crud-add');
+  if (name_button === 'add'){
+    var modal = document.getElementById('modal-crud-add');
+  }else if (name_button === 'edit'){
+    var modal = document.getElementById('modal-crud-edit');
+  }else if (name_button === 'delete'){
+    var modal = document.getElementById('modal-crud-delete');
+  }
   modal.style.display = 'none';
 }
+
