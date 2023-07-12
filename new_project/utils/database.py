@@ -50,5 +50,41 @@ def get_table(database, table_name):
     return result
 
 
-def update_table():
-    ...
+def update_table(data):
+    try:
+        change = data['change']
+        database = data['database']
+        table = data['table']
+        id = data['id']
+        del data['id']
+        del data['change']
+        del data['database']
+        del data['table']
+
+        database_file = f"new_project\\database\\bd_test\\{database}.db"
+        connection = sqlite3.connect(database_file)
+        cursor = connection.cursor()
+
+        if change == 'add':
+            columns = ", ".join(data.keys())
+            values = ", ".join(data.values())
+            placeholders = ', '.join(['?' for x in list(data.values())])
+            query = f"INSERT INTO {table} ({columns}) VALUES ({placeholders})"
+            cursor.execute(query, list(data.values()))
+
+        elif change == 'edit':
+            query = f"UPDATE {table} SET "
+            assignments = []
+            for column, value in data.items():
+                assignments.append(f"{column} = :{column}")
+            query += ", ".join(assignments)
+            query += f" WHERE id = {id}"
+            cursor.execute(query, list(data.values()))
+        else:
+            query = f"DELETE FROM {table} WHERE id = {id}"
+            cursor.execute(query)
+        connection.commit()
+        connection.close()
+        return True
+    except:
+        return False

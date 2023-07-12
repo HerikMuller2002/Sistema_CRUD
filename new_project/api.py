@@ -21,6 +21,8 @@ def admin_page():
     session['session_id'] = os.urandom(16).hex()
     return render_template('admin.html')
 
+
+
 # API
 @app.route('/get_list_names', methods=['GET'])
 def get_list_names_route():
@@ -37,11 +39,11 @@ def select_table_route():
 
 @app.route('/update_table', methods=['POST'])
 def update_table_route():
-    data = request.json
-    database_name = data['database_name']
-    table_name = data['table_name']
-    updated_table = data['table']
-    update_table(database_name, table_name, updated_table)
+    update_data = request.json
+    response = update_table(update_data)
+    return jsonify(response)
+
+
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1',port=5050, debug=True)

@@ -2,11 +2,9 @@
 const url_get_list_names = 'http://localhost:5050'
 
 
-
 $(document).ready(function() {
     $('.js-example-matcher-start').select2();
 });
-
 
 
 // função para deitar string (capitalize)
@@ -15,9 +13,8 @@ function capitalize(str) {
 }
 
 
-
 // Dropdown Filter database
-function options_dropdown_database(opcoes) {
+function optionsDropdownDatabase(opcoes) {
   var select = document.getElementById('dropdown_database');
    // Limpar opções existentes
    select.innerHTML = '';
@@ -38,24 +35,24 @@ function options_dropdown_database(opcoes) {
   }
   
   
-  
   // Dropdown Filter tables
-  function options_dropdown_tables(opcoes) {
-  var select = document.getElementById('dropdown_tables');
-  select.innerHTML = '';
-  var placeholderOption = document.createElement('option');
-  placeholderOption.value = '';
-  placeholderOption.text = 'Select...';
-  placeholderOption.disabled = true;
-  placeholderOption.selected = true;
-   select.appendChild(placeholderOption);
-   for (var i = 0; i < opcoes.length; i++) {
-     var option = document.createElement('option');
-     option.value = opcoes[i];
-     option.text = capitalize(opcoes[i]);
-     select.appendChild(option);
-   }
+  function optionsDropdownTables(opcoes) {
+    var select = document.getElementById('dropdown_tables');
+    select.innerHTML = '';
+    var placeholderOption = document.createElement('option');
+    placeholderOption.value = '';
+    placeholderOption.text = 'Select...';
+    placeholderOption.disabled = true;
+    placeholderOption.selected = true;
+    select.appendChild(placeholderOption);
+    for (var i = 0; i < opcoes.length; i++) {
+      var option = document.createElement('option');
+      option.value = opcoes[i];
+      option.text = capitalize(opcoes[i]);
+      select.appendChild(option);
+    }
   }
+
 
   // função para habilitar filter table
   function disabledFilter(){
@@ -66,32 +63,32 @@ function options_dropdown_database(opcoes) {
       select_table.disabled = false;
     }
   }
+
   
   // função para pegar o nomes dos db e tabelas
-function get_list_names() {
+function getListNames() {
   event.preventDefault();
   fetch(url_get_list_names + '/get_list_names')
     .then(response => response.json())
     .then(data => {
       var options_table = data.tables;
-      options_dropdown_tables(options_table);
+      optionsDropdownTables(options_table);
       
       var options_database = data.database;
-      options_dropdown_database(options_database);
+      optionsDropdownDatabase(options_database);
     })
     .catch(error => {
       console.error('Erro ao obter bancos de dados:', error);
     });
 }
 document.addEventListener('DOMContentLoaded', function() {
-  get_list_names();
+  getListNames();
 });
-
 
 
 // função para criar elemento tabela no HTML
 var columns = [];
-function create_table_div(tabela, divId) {
+function createTableDiv(tabela, divId) {
   var div = document.getElementById(divId);
   var table = document.createElement('table');
   table.className = 'table';
@@ -128,7 +125,6 @@ function create_table_div(tabela, divId) {
 }
 
 
-
 // função para verificar select
 var select_table_Value = ''
 var select_db_Value = ''
@@ -139,9 +135,13 @@ function displaySelectedTable() {
   select_db_Value = select_db.value;
   select_table_Value = select_table.value;
   if (select_table_Value && select_db_Value) {
-      var data = {
-      'database_name': select_db_Value,
-      'table_name': select_table_Value
+    var div_table = document.getElementById('main-content-bottom');
+    if (div_table.innerHTML === ''){
+      document.getElementById('loading-modal').style.display = 'flex';
+    }
+    var data = {
+    'database_name': select_db_Value,
+    'table_name': select_table_Value
     };
     fetch('/get_table', {
       method: 'POST',
@@ -158,12 +158,10 @@ function displaySelectedTable() {
       }
     })
     .then(function(data) {
-      create_table_div(data, divId);
-      selected_line();
-
+      createTableDiv(data, divId);
+      selectedLine();
       button_add.disabled = false;
       button_download.disabled = false;
-
       if (selectedRow && selectedRow.parentNode === table) {
         button_edit.disabled = false;
         button_delete.disabled = false;
@@ -171,6 +169,7 @@ function displaySelectedTable() {
         button_edit.disabled = true;
         button_delete.disabled = true;
       }
+      document.getElementById('loading-modal').style.display = 'none';
     })
     .catch(function(error) {
       console.error(error);
@@ -185,8 +184,9 @@ var button_edit = document.getElementById("edit");
 var button_delete = document.getElementById("delete");
 var button_add = document.getElementById("add");
 var button_download = document.getElementById("btn-export");
+var rowData = {};
 
-function selected_line(){
+function selectedLine(){
   var table = document.getElementById("table");
   var rows = table.getElementsByTagName("tr");
   for (var i = 0; i < rows.length; i++) {
@@ -202,10 +202,15 @@ function selected_line(){
       selectedRow = this;
       button_edit.disabled = false;
       button_delete.disabled = false;
+      var cells = this.getElementsByTagName("td");
+      for (var j = 0; j < cells.length; j++) {
+        var columnName = table.rows[0].cells[j].innerHTML;
+        var cellValue = cells[j].innerHTML;
+        rowData[columnName] = cellValue;
+      }
     };
   }
 }
-
 
 
 // função para filtrar tabela
@@ -261,62 +266,94 @@ const downloadBtn = document.getElementById('btn-export');
 downloadBtn.addEventListener('click', exportToExcel);
 
 
-
 // Função para abrir o modal
 var name_button = '';
 function openModal(button) {
   name_button = button
+  var table = document.getElementById("table");
+  var cells = table.querySelectorAll("tbody td:nth-child(1)");
+  var lastValue = parseInt(cells[cells.length - 1].textContent);
+  var inner_initial = `
+      <div class="forms">
+      <label for="database_form">Database</label>
+      <input type="text" id="database_form" class="form-control input-forms" value="${capitalize(select_db_Value)}" readonly>
+      </div>
+      <div class="forms">
+      <label for="table_form">Table</label>
+      <input type="text" id="table_form" class="form-control input-forms" value="${capitalize(select_table_Value)}" readonly>
+      </div>
+    `;
   let modal = '';
   if (button === 'add'){
     place_holder = 'Add...'
     modal = document.getElementById('modal-crud-add');
     modal.style.display = 'flex';
+    var middle_modal = `${modal.id}-middle`;
+    var modal_content = document.getElementById(middle_modal);
+    modal_content.innerHTML = inner_initial
+    for (var i = 0; i < columns.length; i++){
+      if (columns[i] === 'id'){
+        let new_div = `
+        <div class="forms">
+        <label for="${columns[i]}_form">${capitalize(columns[i])}</label>
+        <input type="text" id="${columns[i]}_form" class="form-control input-forms" value="${lastValue+1}" readonly>
+        </div>
+        `;
+        modal_content.innerHTML += new_div;
+      }else{
+        let new_div = `
+        <div class="forms">
+        <label for="${columns[i]}_form">${capitalize(columns[i])}</label>
+        <input type="text" id="${columns[i]}_form" class="form-control input-forms" placeholder="*Mandatory">
+        </div>
+        `;
+        modal_content.innerHTML += new_div;
+      }
+    }
   }else if(button === 'edit'){
     place_holder = 'Edit...'
     modal = document.getElementById('modal-crud-edit');
     modal.style.display = 'flex';
+    var middle_modal = `${modal.id}-middle`;
+    var modal_content = document.getElementById(middle_modal);
+    modal_content.innerHTML = inner_initial
+    for (var i = 0; i < columns.length; i++){
+      if (columns[i] === 'id'){
+        let new_div = `
+        <div class="forms">
+        <label for="${columns[i]}_form">${capitalize(columns[i])}</label>
+        <input type="text" id="${columns[i]}_form" class="form-control input-forms" value="${rowData[capitalize(columns[i])]}" readonly>
+        </div>
+        `;
+        modal_content.innerHTML += new_div;
+      }else{
+        let new_div = `
+        <div class="forms">
+        <label for="${columns[i]}_form">${capitalize(columns[i])}</label>
+        <input type="text" id="${columns[i]}_form" class="form-control input-forms" value="${rowData[capitalize(columns[i])]}" placeholder="*Mandatory">
+        </div>
+        `;
+        modal_content.innerHTML += new_div;
+      }
+    }
   }else if(button === 'delete'){
     place_holder = 'Delete...'
     modal = document.getElementById('modal-crud-delete');
     modal.style.display = 'flex';
-  }
-  var middle_modal = `${modal.id}-middle`;
-  var modal_content = document.getElementById(middle_modal);
-  
-  var table = document.getElementById("table");
-  var cells = table.querySelectorAll("tbody td:nth-child(1)");
-  var lastValue = parseInt(cells[cells.length - 1].textContent);
-
-  modal_content.innerHTML = `
-    <div class="forms">
-      <label for="input-forms">Database</label>
-      <input type="text" id="input-forms" class="form-control" value="${capitalize(select_db_Value)}" disabled>
-    </div>
-    <div class="forms">
-      <label for="input-forms">Table</label>
-      <input type="text" id="input-forms" class="form-control" value="${capitalize(select_table_Value)}" disabled>
-    </div>
-  `;
-
-  for (var i = 0; i < columns.length; i++){
-    if (columns[i] === 'id'){
+    var middle_modal = `${modal.id}-middle`;
+    var modal_content = document.getElementById(middle_modal);
+    modal_content.innerHTML = inner_initial
+    for (var i = 0; i < columns.length; i++){
       let new_div = `
       <div class="forms">
-        <label for="input-forms">${capitalize(columns[i])}</label>
-        <input type="text" id="input-forms" class="form-control" value="${lastValue+1}" disabled>
-      </div>
-      `;
-      modal_content.innerHTML += new_div;
-    }else{
-      let new_div = `
-      <div class="forms">
-        <label for="input-forms">${capitalize(columns[i])}</label>
-        <input type="text" id="input-forms" class="form-control" placeholder="Add..">
+      <label for="input-forms">${capitalize(columns[i])}</label>
+      <input type="text" id="${columns[i]}_form" class="form-control input-forms" value="${rowData[capitalize(columns[i])]}" readonly>
       </div>
       `;
       modal_content.innerHTML += new_div;
     }
   }
+  
 }
 
 
@@ -332,3 +369,81 @@ function closeModal() {
   modal.style.display = 'none';
 }
 
+
+// Função para Atualizar tabela
+function updateTable(modal_type) {
+  var modal = document.getElementById(modal_type);
+  var input_values = modal.querySelectorAll('.input-forms');
+  var values = {};
+  var allInputsFilled = true;
+
+  for (var i = 0; i < input_values.length; i++) {
+    (function(input) {
+      var value = input.value;
+      if (value === '') {
+        input.style.border = '2px solid red';
+        allInputsFilled = false;
+        setTimeout(function() {
+          input.style.border = '';
+        }, 1000);
+      } else {
+        input.style.border = '';
+      }
+      var label = (input.previousElementSibling.innerText).toLowerCase();
+      values[label] = value.toLowerCase();
+    })(input_values[i]);
+  }
+  if (!allInputsFilled) {
+    return;
+  }
+
+  if (modal_type === "modal-crud-add") {
+    values['change'] = 'add'
+  }else if (modal_type === "modal-crud-edit") {
+    values['change'] = 'edit'
+  }else{
+    values['change'] = 'delete'
+  }
+  fetch('/update_table', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(values)
+  })
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error('Erro na requisição.');
+    }
+  })
+  .then(data => {
+    if (data === true){
+      for (var i = 0; i < input_values.length; i++) {
+        input_values[i].value = '';
+      }
+      var alert_div = document.getElementById('alert-modal-success')
+      alert_div.style.display = 'flex';
+      setTimeout(function() {
+        alert_div.style.display = 'none';
+      }, 3000);
+      modal.style.display = 'none';
+      var div_table = document.getElementById('main-content-bottom');
+      div_table.innerHTML = '';
+      displaySelectedTable()
+      
+    }else {
+      for (var i = 0; i < input_values.length; i++) {
+        input_values[i].value = '';
+      }
+      var alert_div = document.getElementById('alert-modal-error')
+      alert_div.style.display = 'flex';
+      setTimeout(function() {
+        alert_div.style.display = 'none';
+      }, 5000);
+      modal.style.display = 'none';
+      
+    }
+  })
+}

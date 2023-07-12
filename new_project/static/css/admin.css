@@ -140,7 +140,7 @@ body{
 
 #user img {
     filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(97deg) brightness(108%) contrast(101%);
-    border: 1px solid black;
+    border: 2px solid black;
     width: 30%;
     height: 100%;
     margin-right: 0;
@@ -159,6 +159,15 @@ body{
     padding: 20px 20px 20px 10px;
     margin: 0;
 }
+
+#loading-modal {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 #table-container {
     height: auto;
     width: auto;
@@ -298,8 +307,6 @@ tbody::-webkit-scrollbar-track {
     background-color: #0B5ED7;
 }
 
-
-
 .modal {
     display: none;
     justify-content: center;
@@ -315,6 +322,7 @@ tbody::-webkit-scrollbar-track {
 }
 
 .modal-content {
+    display: flex;
     background-color: #141C2B;
     color: white;
     border: 1px solid #293751;
@@ -322,29 +330,45 @@ tbody::-webkit-scrollbar-track {
     height: 80%;
 }
 
-#footer-modal {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background-color: #293751;
-    padding: 20px;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: flex-end;
-}
-
 .modal-content {
     position: relative;
 }
 
+#attention-modal {
+    display: block;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 1%;
+    font-size: 1.0rem;
+}
+
+.modal-content #attention-modal p {
+    padding-bottom: 0;
+}
+.modal-content #attention-modal p img {
+    height: 1.5rem;
+    filter: invert(97%) sepia(8%) saturate(46%) hue-rotate(250deg) brightness(126%) contrast(100%);
+}
+
 #footer-modal {
     display: flex;
-    justify-content: flex-end;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 12%;
     padding: 10px;
+    background-color: #293751;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
     border-top: 1px solid #1C273C;
 }
 
 #footer-modal button {
+    top: 50%;
+    bottom: 50%;
     max-width: 10rem;
     min-width: 5rem;
     width: 10rem;
@@ -352,6 +376,7 @@ tbody::-webkit-scrollbar-track {
 
 #header-modal {
     display: block;
+    height: 12%;
     text-align: center;
     padding: 10px;
     border-bottom: 2px solid #1C273C;
@@ -363,18 +388,71 @@ tbody::-webkit-scrollbar-track {
     font-size: large;
 }
 
-.form-control[disabled]{
-    color: #6c757d !important;
+.form-control[readonly]{
+    color: white !important;
 }
 
-.modal-crud-middle{
-    padding: 2% 10% 2% 10%;
+.modal-crud-middle {
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    top: 50%;
+    bottom: 50%;
+    max-width: 100%;
+    max-height: 66%;
+}
+.modal-crud-middle > div {
+    flex-basis: 50%;
+    box-sizing: border-box;
+    padding: 1% 5%;
 }
 
-#input-forms{
+#attention-modal {
+    display: block;
+    position: relative;
+    max-height: 10%;
+}
+
+.input-forms, .input-forms:focus{
     width: 100%;
     background-color: #31405e;
     border-color: #1c273c;
     color: white;
     margin-bottom: 15px;
+}
+
+.input-forms::placeholder{
+    color: #a2acb4;
+}
+
+.alert-modal-success {
+    height: 50px;
+    width: 180px;
+    font-size: 1.1rem;
+    justify-content: center;
+    align-items: center;
+    background-color: #198754;
+    display: none;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 9999;
+}
+.alert-modal-error {
+    height: 50px;
+    width: 180px;
+    font-size: 1.1rem;
+    justify-content: center;
+    align-items: center;
+    background-color: #dc3545;
+    display: none;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 9999;
+}
+.toast-header img{
+    width: 30px;
+    height: 30px;
+    filter: invert(97%) sepia(8%) saturate(46%) hue-rotate(250deg) brightness(126%) contrast(100%);
 }

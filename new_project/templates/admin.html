@@ -43,20 +43,33 @@
         </button>
     </div>
   </div>
+
   <!-- main -->
     <main id="main-content" class="col-sm-8">
+      <!-- Modal loading -->
+      <div id="loading-modal">
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Modal Add-->
       <div id="modal-crud-add" class="modal">
         <div class="modal-content">
           <div id="header-modal">
             <h2>Add Line</h2>
           </div>
+          <div id="attention-modal">
+            <p><img src="../static/img/attention.svg" id="icon-attention"> Preencha os campos obrigatórios para concluir a ação!</p>
+          </div>
           <div id="modal-crud-add-middle" class="modal-crud-middle">
           </div>
           <div id="footer-modal">
             <div id="btn-modal">
               <button type="button" class="btn btn-danger" id="btn-close-modal" onclick="closeModal()">Cancel</button>
-              <button type="button" class="btn btn-success" id="btn-save">Save</button>
+              <button type="button" class="btn btn-success" id="btn-save" onclick="updateTable('modal-crud-add')">Save</button>
             </div>
           </div>
         </div>
@@ -68,12 +81,16 @@
           <div id="header-modal">
             <h2>Edit Line</h2>
           </div>
+          <div id="attention-modal">
+            <p><img src="../static/img/attention.svg" id="icon-attention"> 
+              Altere somente os campos permitidos!</p>
+          </div>
           <div id="modal-crud-edit-middle" class="modal-crud-middle">
           </div>
           <div id="footer-modal">
             <div id="btn-modal">
               <button type="button" class="btn btn-danger" id="btn-close-modal" onclick="closeModal()">Cancel</button>
-              <button type="button" class="btn btn-success" id="btn-save">Save Changes</button>
+              <button type="button" class="btn btn-success" id="btn-save" onclick="updateTable('modal-crud-edit')">Save</button>
             </div>
           </div>
         </div>
@@ -85,12 +102,15 @@
           <div id="header-modal">
             <h2>Delete Line</h2>
           </div>
+          <div id="attention-modal">
+            <p><img src="../static/img/attention.svg" id="icon-attention"> Certifique-se de remover a linha correta!</p>
+          </div>
           <div id="modal-crud-delete-middle" class="modal-crud-middle">
           </div>
           <div id="footer-modal">
             <div id="btn-modal">
               <button type="button" class="btn btn-danger" id="btn-close-modal" onclick="closeModal()">Cancel</button>
-              <button type="button" class="btn btn-success" id="btn-save">Save Changes</button>
+              <button type="button" class="btn btn-success" id="btn-save" onclick="updateTable('modal-crud-delete')">Save</button>
             </div>
           </div>
         </div>
@@ -122,6 +142,22 @@
                 <img src="../static/img/file-export-solid.svg" />
               </button>
             </div>              
+      </div>
+
+      <!-- Modal alerta success -->
+      <div id="alert-modal-success" class="alert-modal-success">
+        <div class="toast-header">
+          <img src="../static/img/success.svg" class="rounded me-2" alt="...">
+          <strong class="me-auto">Save success</strong>
+        </div>
+      </div>
+
+      <!-- Modal alerta error -->
+      <div id="alert-modal-error" class="alert-modal-error">
+        <div class="toast-header">
+          <img src="../static/img/error.svg" class="rounded me-2" alt="...">
+          <strong class="me-auto">Save error</strong>
+        </div>
       </div>
 
       <!-- main-content-bottom -->
