@@ -44,10 +44,17 @@ def get_table(database, table_name):
     result = []
     result.append(tuple(columns))
     for row in rows:
-        result.append(tuple(row))
+        modified_row = []
+        for value in row:
+            if value is None:
+                modified_row.append("NaN")
+            else:
+                modified_row.append(value)
+        result.append(tuple(modified_row))
     cursor.close()
     connection.close()
     return result
+
 
 
 def update_table(data):
